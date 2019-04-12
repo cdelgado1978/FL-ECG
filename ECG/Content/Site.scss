@@ -1,0 +1,62 @@
+﻿
+
+
+html, body {
+    height: 100% !important;
+    
+}
+
+
+body {
+    background-size: cover;
+    font-size: 1.2em !important;
+    padding-top: 50px;
+    padding-bottom: 20px;
+    /* Set padding to keep content from hitting the edges */
+    &-content {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .form-control {
+        font-size: 1.1em !important;
+        height: 30px;
+    }
+
+    .nav-pills > li > a {
+        font-size: 14px;
+        font-weight: bold;
+        border-radius: 0;
+        width: 100px;
+    }
+
+    .nav-pills {
+        border-bottom: 1px solid #337ab7;
+    }
+}
+
+footer {
+    top: 10px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+
+input, select, textarea {
+    max-width: 280px;
+}
+
+
+#EcgQuestions {
+    height:350px;
+    form-control {
+        width: 60% !important;
+    }
+}

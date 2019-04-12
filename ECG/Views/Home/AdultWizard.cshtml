@@ -1,0 +1,849 @@
+﻿@model ECG.Models.EcgModels.Adulto
+
+@{
+	ViewBag.Title = "Adultos";
+}
+@*<link href="~/Content/jquery.steps.css" rel="stylesheet" />*@
+
+<h2>ECG - Adultos</h2>
+<hr />
+
+@using (Html.BeginForm("AdultWizard", "Home", null, FormMethod.Post, htmlAttributes: new { @class = "form-horizontal", id = "formEcgAdult" }))
+{
+	@Html.AntiForgeryToken()
+
+	<input type="hidden" id="ecg_id" name="ecg_id" value="@ViewBag.ecgId" />
+	<h3>Onda P</h3>
+
+	<fieldset>
+
+		<div class="col-md-6">
+			<div class="form-group">
+				@Html.Label("Ritmo", htmlAttributes: new { @class = "control-label col-md-4" })
+				<div class="col-md-5">
+					@Html.DropDownList("ritmo_id", (IEnumerable<SelectListItem>)ViewBag.ritmos, new { @class = "form-control" })
+					@Html.ValidationMessageFor(model => model.ritmo_id, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="form-group">
+				@*¿Onda P antes de cada QRS?*@
+				@Html.Label("¿Onda P antes de cada QRS?", htmlAttributes: new { @class = "control-label col-md-4" })
+				<div class="col-md-5">
+					@Html.EditorFor(model => model.ondaP_antes_qrs, new { htmlAttributes = new { @class = "form-control", id = "ondaP_antes_qrs" } })
+					@Html.ValidationMessageFor(model => model.ondaP_antes_qrs, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div id="divDerivaciones" style="display: none">
+				<div class="form-group">
+					@*Derivación D I onda P*@
+					@Html.Label("Derivación DI onda P", htmlAttributes: new { @class = "control-label col-md-4" })
+					<div class="col-md-5">
+						<select id="deriv_di_ondap" name="deriv_di_ondap" class="form-control" text="@Model.deriv_di_ondap">
+							<option value="0"></option>
+							<option value="+">+</option>
+							<option value="-">-</option>
+						</select>
+						@Html.ValidationMessageFor(model => model.deriv_di_ondap, "", new { @class = "text-danger" })
+					</div>
+				</div>
+				<div class="form-group">
+					@*Derivación aVF onda P*@
+					@Html.Label("Derivación aVF onda P", htmlAttributes: new { @class = "control-label col-md-4" })
+					<div class="col-md-5">
+						<select id="deriv_avf_ondap" name="deriv_avf_ondap" class="form-control dropdown" value="@Model.deriv_avf_ondap">
+							<option value="0"></option>
+							<option value="+">+</option>
+							<option value="-">-</option>
+						</select>
+						@Html.ValidationMessageFor(model => model.deriv_avf_ondap, "", new { @class = "text-danger" })
+					</div>
+				</div>
+				<div class="form-group">
+					@*¿Secuencia P-QRS en todos los complejos?*@
+					@Html.Label("¿Secuencia P-QRS en todos los complejos?", htmlAttributes: new { @class = "control-label col-md-4" })
+					<div class="col-md-5">
+						@Html.EditorFor(model => model.seq_pqrs_todos_complejo, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(model => model.seq_pqrs_todos_complejo, "", new { @class = "text-danger" })
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<div class="col-md-6">
+			<div id="divDerivaciones2" style="display: none">
+
+				<div class="form-group">
+					@*Duración onda P (nº de cuadrados pequeños):*@
+					@Html.Label("Duración onda P (nº de cuadrados pequeños):", htmlAttributes: new { @class = "control-label col-md-4" })
+					<div class="col-md-5">
+						@Html.EditorFor(model => model.duracion_ondap, new { htmlAttributes = new { @class = "form-control", @min = "0", @max = "5", required = "required" } })
+						@Html.ValidationMessageFor(model => model.duracion_ondap, "", new { @class = "text-danger" })
+					</div>
+				</div>
+				<div class="form-group">
+					@*Amplitud onda P (mm)*@
+					@Html.Label("Amplitud onda P (mm)", htmlAttributes: new { @class = "control-label col-md-4" })
+					<div class="col-md-5">
+						@Html.EditorFor(model => model.amplitud_ondap, new { htmlAttributes = new { @class = "form-control", @min = "0", @max = "50", required = "required" } })
+						@Html.ValidationMessageFor(model => model.amplitud_ondap, "", new { @class = "text-danger" })
+					</div>
+				</div>
+				<div class="form-group">
+					@*Intervalo PR (nº de cuadrados pequeños en DII):*@
+					@Html.Label("Intervalo PR (nº de cuadrados pequeños en DII):", htmlAttributes: new { @class = "control-label col-md-4" })
+					<div class="col-md-5">
+						@Html.EditorFor(model => model.intervalo_pr, new { htmlAttributes = new { @class = "form-control", @min = "0", @max = "20", required = "required" } })
+						@Html.ValidationMessageFor(model => model.intervalo_pr, "", new { @class = "text-danger" })
+					</div>
+				</div>
+
+			</div>
+			<div id="divAleteoAuricular" class="form-group" style="display: block">
+				@Html.Label("¿Observa ondas de aleteo auricular?:", htmlAttributes: new { @class = "control-label col-md-4" })
+				<div class="col-md-5">
+					@Html.EditorFor(model => model.observa_aleteo_auricular, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.ValidationMessageFor(model => model.observa_aleteo_auricular, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+
+		<div align="center" class=" btn btn-primary btn-sm pop" id="botonMostrarP" target="#modalP">Ver conceptos téoricos<br />sobre la onda P</div>
+
+	</fieldset>
+	<h3>QRS</h3>
+	<fieldset>
+		<div class="col-md-6">
+			<div class="form-group">
+				@*Derivación D I QRS predominio onda R  u onda S*@
+				@Html.Label("Derivación D I QRS predominio onda R  u onda S", htmlAttributes: new { @class = "control-label col-md-7" })
+				<div class="col-md-5">
+
+					<select id="deriv_di_qrs_r_u_s" name="deriv_di_qrs_r_u_s" class="form-control dropdown" value="@Model.deriv_di_qrs_r_u_s" required>
+						<option value="0"></option>
+						<option value="R">R</option>
+						<option value="S">S</option>
+					</select>
+					@Html.ValidationMessageFor(model => model.deriv_di_qrs_r_u_s, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="form-group">
+				@*Derivación aVF QRS predominio onda R u onda S*@
+				@Html.Label("Derivación aVF QRS predominio onda R u onda S", htmlAttributes: new { @class = "control-label col-md-7" })
+				<div class="col-md-5">
+					<select id="deriv_avf_qrs_r_u_s" name="deriv_avf_qrs_r_u_s" class="form-control dropdown" value="@Model.deriv_avf_qrs_r_u_s" required>
+						<option value="0"></option>
+						<option value="R">R</option>
+						<option value="S">S</option>
+					</select>
+					@Html.ValidationMessageFor(model => model.deriv_avf_qrs_r_u_s, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="form-group">
+				@*¿Se observan complejos QRS que se anticipan a la frecuencia prevista? (con o sin alteración de la morfología del complejo)*@
+				@Html.Label("¿Se observan complejos QRS que se anticipan a la frecuencia prevista? (con o sin alteración de la morfología del complejo)", htmlAttributes: new { @class = "control-label col-md-7" })
+				<div class="col-md-5">
+					@Html.EditorFor(model => model.complejos_qrs, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.ValidationMessageFor(model => model.complejos_qrs, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="form-group">
+				@*Morfología del complejo QRS*@
+				@Html.Label("Morfología del complejo QRS", htmlAttributes: new { @class = "control-label col-md-7" })
+				<div class="col-md-5">
+					@Html.DropDownList("morfologiaqrs_id", (IEnumerable<SelectListItem>)ViewBag.morfologia, new { @class = "form-control", required = "required" })
+					@Html.ValidationMessageFor(model => model.morfologiaqrs_id, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="form-group">
+				@*Duración de QRS (nº de cuadrados pequeños):*@
+				@Html.Label("Duración de QRS (nº de cuadrados pequeños):", htmlAttributes: new { @class = "control-label col-md-7" })
+				<div class="col-md-5">
+					@Html.EditorFor(model => model.duracion_qrs, new { htmlAttributes = new { @class = "form-control", @min = "0", @max = "5", required = "required" } })
+					@Html.ValidationMessageFor(model => model.duracion_qrs, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="form-group">
+				@*Amplitud  R V1 - V2 (mm)*@
+				@Html.Label("Amplitud  R V1 - V2 (mm)", htmlAttributes: new { @class = "control-label col-md-7" })
+				<div class="col-md-5">
+					@Html.EditorFor(model => model.amplitud_r_v1_v2, new { htmlAttributes = new { @class = "form-control", @min = "0", @max = "50", required = "required" } })
+					@Html.ValidationMessageFor(model => model.amplitud_r_v1_v2, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="form-group">
+				@*Amplitud S V1 - V2 (mm)*@
+				@Html.Label("Amplitud S V1 - V2 (mm)", htmlAttributes: new { @class = "control-label col-md-7" })
+				<div class="col-md-5">
+					@Html.EditorFor(model => model.amplitud_s_v1_v2, new { htmlAttributes = new { @class = "form-control", @min = "0", @max = "50", required = "required" } })
+					@Html.ValidationMessageFor(model => model.amplitud_s_v1_v2, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="form-group">
+				@*Amplitud R V5 - V6 (mm)*@
+				@Html.Label("Amplitud R V5 - V6 (mm)", htmlAttributes: new { @class = "control-label col-md-7" })
+				<div class="col-md-5">
+					@Html.EditorFor(model => model.amplitud_r_v5_v6, new { htmlAttributes = new { @class = "form-control", @min = "0", @max = "50", required = "required" } })
+					@Html.ValidationMessageFor(model => model.amplitud_r_v5_v6, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="form-group">
+				@*Amplitud S V5 - V6 (mm)*@
+				@Html.Label("Amplitud S V5 - V6 (mm)", htmlAttributes: new { @class = "control-label col-md-7" })
+				<div class="col-md-5">
+					@Html.EditorFor(model => model.amplitud_s_v5_v6, new { htmlAttributes = new { @class = "form-control", @min = "0", @max = "50", required = "required" } })
+					@Html.ValidationMessageFor(model => model.amplitud_s_v5_v6, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="form-group">
+				@*Derivación donde se observan QRS isodifásicos*@
+				@Html.Label("Derivación donde se observan QRS isodifásicos", htmlAttributes: new { @class = "control-label col-md-7" })
+				<div class="col-md-5">
+					<select id="qrs_isodifico_en" name="qrs_isodifico_en" class="form-control dropdown" required>
+						<option value="0"></option>
+						<option value="DI">DI</option>
+						<option value="DII">DII</option>
+						<option value="DIII">DIII</option>
+						<option value="aVR">aVR</option>
+						<option value="aVL">aVL</option>
+						<option value="aVF">aVF</option>
+					</select>
+					@Html.ValidationMessageFor(model => model.qrs_isodifico_en, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		    <div class="form-group">
+		        @*Derivación D I QRS predominio onda R  u onda S*@
+		        @Html.Label("Predominio S o R en aVF", htmlAttributes: new { @class = "control-label col-md-7", id = "predominioSR" })
+		        <div class="col-md-5">
+
+		            <select id="predominio_s_r_en" name="predominio_s_r_en" class="form-control dropdown">
+		                <option value="0"></option>
+		                <option value="R">R</option>
+		                <option value="S">S</option>
+		            </select>
+		            @Html.ValidationMessageFor(model => model.predominio_s_r_en, "", new { @class = "text-danger" })
+		        </div>
+		    </div>
+		    <div align="center" class=" btn btn-primary btn-sm pop" id="botonMostrarQRS" target="#modalQRS">Ver conceptos téoricos<br />sobre QRS</div>
+
+		</div>
+
+	</fieldset>
+
+	<h3>QTST</h3>
+	<fieldset>
+		<div class="col-md-6">
+			<div class="form-group">
+				@*Intervalo QT (nº de cuadrados pequeños):*@
+				@Html.Label("Intervalo QT (nº de cuadrados pequeños):", htmlAttributes: new { @class = "control-label col-md-4" })
+				<div class="col-md-5">
+					@Html.EditorFor(model => model.intervalo_qt, new { htmlAttributes = new { @class = "form-control", @min = "0", @max = "20", required = "required" } })
+					@Html.ValidationMessageFor(model => model.intervalo_qt, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="form-group">
+				@*R-R (nº de cuadrados pequeños):*@
+				@Html.Label("R-R (nº de cuadrados pequeños):", htmlAttributes: new { @class = "control-label col-md-4" })
+				<div class="col-md-5">
+					@Html.EditorFor(model => model.r_r, new { htmlAttributes = new { @class = "form-control", @min = "0", @max = "40", required = "required" } })
+					@Html.ValidationMessageFor(model => model.r_r, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			@*<div class="form-group">
+					<!--¿Segmento ST isoeléctrico?-->
+					@Html.Label("¿Segmento ST isoeléctrico?", htmlAttributes: new { @class = "control-label col-md-4" })
+					<div class="col-md-5">
+						@Html.EditorFor(model => model.st_isoelectrico, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(model => model.st_isoelectrico, "", new { @class = "text-danger" })
+					</div>
+				</div>*@
+		</div>
+		<div class="col-md-6">
+			<div class="form-group">
+				@*Onda T en V1-V2*@
+				@Html.Label("Onda T en V1-V2", htmlAttributes: new { @class = "control-label col-md-4" })
+				<div class="col-md-5">
+					<select id="onda_t_v1_v2" name="onda_t_v1_v2" class="form-control dropdown" required>
+						<option value="0"></option>
+						<option value="+">+</option>
+						<option value="-">-</option>
+					</select>
+					@Html.ValidationMessageFor(model => model.onda_t_v1_v2, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="form-group">
+				@*Onda T en V5-V6*@
+				@Html.Label("Onda T en V5-V6", htmlAttributes: new { @class = "control-label col-md-4" })
+				<div class="col-md-5">
+					<select id="onda_t_v5_v6" name="onda_t_v5_v6" class="form-control dropdown" required>
+						<option value="0"></option>
+						<option value="+">+</option>
+						<option value="-">-</option>
+					</select>
+					@Html.ValidationMessageFor(model => model.onda_t_v5_v6, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+	</fieldset>
+
+	<h3>ST</h3>
+	<fieldset>
+		<div class="col-md-6">
+			<div class="form-group">
+				@*¿Tiene supradesnivel del ST en una o más derivaciones?*@
+				@Html.Label("¿Tiene supradesnivel del ST en una o más derivaciones?", htmlAttributes: new { @class = "control-label col-md-7" })
+				<div class="col-md-5">
+					@Html.EditorFor(model => model.supradesnivel_st, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.ValidationMessageFor(model => model.supradesnivel_st, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div id="supradesnivelInfo" class="form-group" style="visibility: hidden">
+				@*Derivaciones adonde se lo observa:*@
+				@Html.Label("Derivaciones donde se lo observa:", htmlAttributes: new { @class = "control-label col-md-7" })
+				<div class="col-md-5">
+					<select id="supradesnivel_st_en" name="supradesnivel_st_en" class="form-control dropdown" value="@Model.supradesnivel_st_en">
+						<option value="0"></option>
+						<option value="DII - DIII y AVF">DII - DIII y AVF</option>
+						<option value="V1 - V2">V1 - V2</option>
+						<option value="V1 - V2 - V3 - V4">V1 - V2 - V3 - V4</option>
+						<option value="V5 - V6">V5 - V6</option>
+						<option value="DI - AVL">DI - AVL</option>
+						<option value="V1 A V6">V1 A V6</option>
+						<option value="DI - AVL - V5 y V6">DI - AVL - V5 y V6</option>
+						<option value="En Todas">En Todas</option>
+					</select>
+					@Html.ValidationMessageFor(model => model.supradesnivel_st_en, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="form-group">
+				@*¿Tiene infradesnivel del ST en una o más derivaciones?*@
+				@Html.Label("¿Tiene infradesnivel del ST en una o más derivaciones?", htmlAttributes: new { @class = "control-label col-md-7" })
+				<div class="col-md-5">
+					@Html.EditorFor(model => model.infradesnivel_st, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.ValidationMessageFor(model => model.infradesnivel_st, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div id="infradesnivelInfo" class="form-group" style="visibility: hidden">
+				@*Derivaciones adonde se lo observa*@
+				@Html.Label("Derivaciones donde se lo observa:", htmlAttributes: new { @class = "control-label col-md-7" })
+				<div class="col-md-5">
+					<select id="infradesnivel_st_en" name="infradesnivel_st_en" class="form-control dropdown" value="@Model.infradesnivel_st_en">
+						<option value="0"></option>
+						<option value="DII - DIII y AVF">DII - DIII y AVF</option>
+						<option value="V1 - V2">V1 - V2</option>
+						<option value="V1 - V2 - V3 - V4">V1 - V2 - V3 - V4</option>
+						<option value="V5 - V6">V5 - V6</option>
+						<option value="DI - AVL">DI - AVL</option>
+						<option value="V1 A V6">V1 A V6</option>
+						<option value="DI - AVL - V5 y V6">DI - AVL - V5 y V6</option>
+						<option value="En Todas">En Todas</option>
+					</select>
+					@Html.ValidationMessageFor(model => model.infradesnivel_st_en, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+
+		<div align="center" class=" btn btn-primary btn-sm pop" id="botonMostrarST" target="#modalST">Ver conceptos téoricos<br />sobre Segmento ST</div>
+
+	</fieldset>
+
+	<h3>Q</h3>
+	<fieldset>
+		<div class="form-group">
+			@*Presencia de onda Q*@
+			@Html.Label("Presencia de onda Q", htmlAttributes: new { @class = "control-label col-md-4" })
+			<div class="col-md-5">
+				@Html.EditorFor(model => model.presencia_onda_q, new { htmlAttributes = new { @class = "form-control", id = "presencia_onda_q" } })
+				@Html.ValidationMessageFor(model => model.presencia_onda_q, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div id="infoOndaQ">
+			<div class="form-group">
+				@*Derivación adonde se la encuentra más pronunciada**@
+				@Html.Label("Derivación adonde se la encuentra más pronunciada", htmlAttributes: new { @class = "control-label col-md-4" })
+				<div class="col-md-5">
+					<select id="pico_mas_alto_en" name="pico_mas_alto_en" class="form-control dropdown">
+						<option value="0"></option>
+						<option value="DI">DI</option>
+						<option value="DII">DII</option>
+						<option value="DIII">DIII</option>
+						<option value="aVR">aVR</option>
+						<option value="aVL">aVL</option>
+						<option value="aVF">aVF</option>
+						<option value="V1">V1</option>
+						<option value="V2">V2</option>
+						<option value="V3">V3</option>
+						<option value="V4">V4</option>
+						<option value="V5">V5</option>
+						<option value="V6">V6</option>
+					</select>
+					@Html.ValidationMessageFor(model => model.pico_mas_alto_en, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="form-group">
+				@*Profundidad (amplitud) en mm de la onda Q**@
+				@Html.Label("Profundidad (amplitud) en mm de la onda Q", htmlAttributes: new { @class = "control-label col-md-4" })
+				<div class="col-md-5">
+					@Html.EditorFor(model => model.profundida_ondaq, new { htmlAttributes = new { @class = "form-control", @min = "0", @max = "40" } })
+					@Html.ValidationMessageFor(model => model.profundida_ondaq, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="form-group">
+				@*Duración en mm de la onda Q**@
+				@Html.Label("Duración en mm de la onda Q", htmlAttributes: new { @class = "control-label col-md-4" })
+				<div class="col-md-5">
+					@Html.EditorFor(model => model.duracion_ondaq, new { htmlAttributes = new { @class = "form-control", @min = "0", @max = "40" } })
+					@Html.ValidationMessageFor(model => model.duracion_ondaq, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<br />
+			<div align="center" style="color:#2184be">
+				La planilla con los resultados de la evaluación saldrá <span style="font-weight: bold; color:black">en letras negras</span> ante parámetros considerados adecuados para la edad<br />y <span style="font-weight: bold; color:red">en rojo</span> aquellos en los que sea conveniente consultar al especialista
+			</div>
+		</div>
+
+	</fieldset>
+
+	<div class="modal fade" tabindex="-1" role="dialog" id="modalP">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title"></h4>
+				</div>
+				<div class="modal-body">
+					<table border="1">
+						<tbody>
+							<tr>
+								<td>P</td>
+							</tr>
+							<tr>
+								<td>1. En ausencia de P: fibrilaci&oacute;n auricular y extras&iacute;stoles ventriculares (si la ausencia es espor&aacute;dica); pudiera estar tambi&eacute;n superpuesta a QRS o a la onda T (caso de los bloqueos aur&iacute;culoventriculares de tercer grado)</td>
+							</tr>
+							<tr>
+								<td>2. En que es muy alta: hipertrofia auricular.</td>
+							</tr>
+							<tr>
+								<td>3. En que es muy ancha: dilataci&oacute;n auricular. Si es alta y ancha simult&aacute;neamente: hipertrofia m&aacute;s dilataci&oacute;n auricular</td>
+							</tr>
+							<tr>
+								<td>4. Aspecto inusitado, at&iacute;pico: flutter auricular.</td>
+							</tr>
+							<tr>
+								<td>5. En que no precede a QRS: trastornos en el ritmo card&iacute;aco. Sustituci&oacute;n del ritmo sinusal normal por un ritmo ect&oacute;pico: ritmo idioventricular.</td>
+							</tr>
+							<tr>
+								<td>6. En que existen varias ondas P por cada complejo ventricular: bloqueos AV de segundo y tercer grados</td>
+							</tr>
+							<tr>
+								<td>Esta onda no debe rebasar las dimensiones m&aacute;ximas de 0,10 s de anchura ni de 2,5 mm de altura.</td>
+							</tr>
+							<tr>
+								<td>&nbsp;</td>
+							</tr>
+							<tr>
+								<td>Los trastornos del ritmo card&iacute;aco y la ausencia de P con respecto al complejo ventricular son mejor diagnosticados en la derivaci&oacute;n precordial derecha V1 y en la derivaci&oacute;n est&aacute;ndar D2.</td>
+							</tr>
+							<tr>
+								<td>&nbsp;</td>
+							</tr>
+							<tr>
+								<td>PR</td>
+							</tr>
+							<tr>
+								<td>La longitud del espacio P-R &oacute; P-Q fluct&uacute;a entre 0,12 y 0,20 s,</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
+	<div class="modal fade" tabindex="-1" role="dialog" id="modalQRS">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title"></h4>
+				</div>
+				<div class="modal-body">
+					<table border="1">
+						<tbody>
+							<tr>
+								<td>QRS</td>
+							</tr>
+							<tr>
+								<td>Aumentos de anchura</td>
+							</tr>
+							<tr>
+								<td>de 0,08 s a 0,10 s: hipertrofias ventriculares</td>
+							</tr>
+							<tr>
+								<td>de 0,10 s a 0,12 s: bloqueos incompletos de rama</td>
+							</tr>
+							<tr>
+								<td>de 0,12 s en adelante: bloqueo completo de rama</td>
+							</tr>
+							<tr>
+								<td>&nbsp;</td>
+							</tr>
+						</tbody>
+					</table>
+					<img src="~/Content/Images/MorfologiasQRS.png" width="550"/>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
+	<div class="modal fade" tabindex="-1" role="dialog" id="modalST">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title"></h4>
+				</div>
+				<div class="modal-body">
+					<table border="1">
+						<tbody>
+							<tr>
+								<td>SEGMENTO ST</td>
+							</tr>
+							<tr>
+								<td>Desplazamientos positivos o de capa externa</td>
+							</tr>
+							<tr>
+								<td>C&oacute;ncavos: vagoton&iacute;a</td>
+							</tr>
+							<tr>
+								<td>Convexos: infarto mioc&aacute;rdico agudo, pericarditis aguda.</td>
+							</tr>
+							<tr>
+								<td>Desplazamientos negativos o de capa interna</td>
+							</tr>
+							<tr>
+								<td>C&oacute;ncavos: angor pectoris, acci&oacute;n digit&aacute;lica</td>
+							</tr>
+							<tr>
+								<td>Convexos: sobrecargas sist&oacute;licas ventriculares.</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
+}
+
+@section scripts
+{
+
+	<script>
+
+		$(function () {
+
+			if ($('#qrs_isodifico_en').val() == "0") {
+				$('#predominioSR')[0].style.visibility = "hidden";
+				$('#predominio_s_r_en')[0].style.visibility = "hidden";
+			}
+
+            ///Selecciona los DropDown.
+            $('#deriv_di_ondap').val('@Model.deriv_di_ondap');
+            $('#deriv_avf_ondap').val('@Model.deriv_avf_ondap');
+            ///QRS
+            $('#deriv_di_qrs_r_u_s').val('@Model.deriv_di_qrs_r_u_s');
+            $('#deriv_avf_qrs_r_u_s').val('@Model.deriv_avf_qrs_r_u_s');
+            $('#morfologiaqrs_id').val('@Model.morfologiaqrs_id');
+            $('#qrs_isodifico_en').val('@Model.qrs_isodifico_en');
+            $('#predominio_s_r_en').val('@Model.predominio_s_r_en');
+            $('#onda_t_v1_v2').val('@Model.onda_t_v1_v2');
+            $('#onda_t_v5_v6').val('@Model.onda_t_v5_v6');
+            $('#supradesnivel_st_en').val('@Model.supradesnivel_st_en');
+            $('#infradesnivel_st_en').val('@Model.infradesnivel_st_en');
+            $('#pico_mas_alto_en').val('@Model.pico_mas_alto_en');
+
+            /// DropDown
+			$('#ritmo_id').change(function() {
+				if ($('#ritmo_id').val() == 2 && $('#ondaP_antes_qrs')[0].checked) {
+					$('#divAleteoAuricular')[0].style.display = "none";
+				} else if ($('#ritmo_id').val() == 1 && $('#ondaP_antes_qrs')[0].checked == false) {
+					$('#divAleteoAuricular')[0].style.display = "block";
+				} else {
+					$('#divAleteoAuricular')[0].style.display = "none";
+				}
+			});
+
+            if ($('#ondaP_antes_qrs')[0].checked) {
+                $('#divDerivaciones')[0].style.display = "block";
+				$('#divDerivaciones2')[0].style.display = "block";
+            } else {
+                $('#divDerivaciones')[0].style.display = "none";
+                $('#divDerivaciones2')[0].style.display = "none";
+            }
+
+			$('#ondaP_antes_qrs').click(function () {
+				if ($('#ondaP_antes_qrs')[0].checked) {
+					$('#divDerivaciones')[0].style.display = "block";
+					$('#divDerivaciones2')[0].style.display = "block";
+					$('#deriv_di_ondap').prop("required", true);
+					$('#deriv_avf_ondap').prop("required", true);
+				} else {
+					$('#divDerivaciones')[0].style.display = "none";
+					$('#divDerivaciones2')[0].style.display = "none";
+					$('#deriv_di_ondap').prop("required", false);
+					$('#deriv_avf_ondap').prop("required", false);
+				}
+
+				if ($('#ritmo_id').val() == 2 ) {
+					$('#divAleteoAuricular')[0].style.display = "none";
+				} else if ($('#ritmo_id').val() == 1 && $('#ondaP_antes_qrs')[0].checked == false) {
+					$('#divAleteoAuricular')[0].style.display = "block";
+				} else {
+					$('#divAleteoAuricular')[0].style.display = "none";
+				}
+			});
+
+
+            if ($('#presencia_onda_q')[0].checked) {
+				$('#infoOndaQ')[0].style.visibility = "visible";
+				$('#pico_mas_alto_en').prop("required", true);
+            } else {
+				$('#infoOndaQ')[0].style.visibility = "hidden";
+				$('#pico_mas_alto_en').prop("required", false);
+            }
+
+			$('#presencia_onda_q').click(function() {
+				if ($('#presencia_onda_q')[0].checked) {
+					$('#infoOndaQ')[0].style.visibility = "visible";
+					$('#pico_mas_alto_en').prop("required", true);
+				} else {
+					$('#infoOndaQ')[0].style.visibility = "hidden";
+					$('#pico_mas_alto_en').prop("required", false);
+				}
+			});
+
+            if ($('#supradesnivel_st')[0].checked) {
+				$('#supradesnivelInfo')[0].style.visibility = "visible";
+				$('#supradesnivel_st_en').prop("required", true);
+				$('#supradesnivel_st_en').val('');
+            } else {
+				$('#supradesnivelInfo')[0].style.visibility = "hidden";
+				$('#supradesnivel_st_en').prop("required", false);
+				$('#supradesnivel_st_en').val('');
+			}
+
+
+			$('#supradesnivel_st').click(function() {
+				if ($('#supradesnivel_st')[0].checked) {
+					$('#supradesnivelInfo')[0].style.visibility = "visible";
+					$('#supradesnivel_st_en').prop("required", true);
+					$('#supradesnivel_st_en').val('');
+				} else {
+					$('#supradesnivelInfo')[0].style.visibility = "hidden";
+					$('#supradesnivel_st_en').prop("required", false);
+					$('#supradesnivel_st_en').val('');
+				}
+			});
+
+			if ($('#infradesnivel_st')[0].checked) {
+				$('#infradesnivelInfo')[0].style.visibility = "visible";
+				$('#infradesnivel_st_en').prop("required", true);
+				$('#infradesnivel_st_en').val('');
+
+			} else {
+				$('#infradesnivelInfo')[0].style.visibility = "hidden";
+				$('#infradesnivel_st_en').prop("required", false);
+				$('#infradesnivel_st_en').val('');
+			}
+
+
+			$('#infradesnivel_st').click(function () {
+				if ($('#infradesnivel_st')[0].checked) {
+					$('#infradesnivelInfo')[0].style.visibility = "visible";
+					$('#infradesnivel_st_en').prop("required", true);
+					$('#infradesnivel_st_en').val('');
+				} else {
+					$('#infradesnivelInfo')[0].style.visibility = "hidden";
+					$('#infradesnivel_st_en').prop("required", false);
+					$('#infradesnivel_st_en').val('');
+				}
+			});
+
+			//$('#infradesnivel_st').click(function() {
+			//	if ($('#infradesnivel_st')[0].checked) {
+
+			//	} else {
+
+			//	}
+			//});
+
+			$('#qrs_isodifico_en').change(function() {
+				switch ($('#qrs_isodifico_en').val())
+				{
+				case "0":
+						$('#predominioSR')[0].style.visibility = "hidden";
+						$('#predominio_s_r_en')[0].style.visibility = "hidden";
+						$('#predominio_s_r_en').prop("required", false);
+						break;
+				case "DI":
+						$('#predominioSR')[0].innerText = "Predominio S o R en aVF";
+						$('#predominioSR')[0].style.visibility = "visible";
+						$('#predominio_s_r_en')[0].style.visibility = "visible";
+						$('#predominio_s_r_en').prop("required", true);
+						$('#predominio_s_r_en').val('');
+					break;
+				case "DII":
+						$('#predominioSR')[0].innerText = "Predominio S o R en aVL";
+						$('#predominioSR')[0].style.visibility = "visible";
+						$('#predominio_s_r_en')[0].style.visibility = "visible";
+						$('#predominio_s_r_en').prop("required", true);
+						$('#predominio_s_r_en').val('');
+					break;
+
+				case "DIII":
+						$('#predominioSR')[0].innerText = "Predominio S o R en aVR";
+						$('#predominioSR')[0].style.visibility = "visible";
+						$('#predominio_s_r_en')[0].style.visibility = "visible";
+						$('#predominio_s_r_en').prop("required", true);
+						$('#predominio_s_r_en').val('');
+					break;
+
+				case "aVF":
+						$('#predominioSR')[0].innerText = "Predominio S o R en DI";
+						$('#predominioSR')[0].style.visibility = "visible";
+						$('#predominio_s_r_en')[0].style.visibility = "visible";
+						$('#predominio_s_r_en').prop("required", true);
+						$('#predominio_s_r_en').val('');
+					break;
+
+				case "aVR":
+						$('#predominioSR')[0].innerText = "Predominio S o R en DIII";
+						$('#predominioSR')[0].style.visibility = "visible";
+						$('#predominio_s_r_en')[0].style.visibility = "visible";
+						$('#predominio_s_r_en').prop("required", true);
+						$('#predominio_s_r_en').val('');
+					break;
+
+				case "aVL":
+						$('#predominioSR')[0].innerText = "Predominio S o R en DII";
+						$('#predominioSR')[0].style.visibility = "visible";
+						$('#predominio_s_r_en')[0].style.visibility = "visible";
+						$('#predominio_s_r_en').prop("required", true);
+						$('#predominio_s_r_en').val('');
+					break;
+
+				}
+			});
+		});
+
+		var form = $("#formEcgAdult").show();
+
+		form.steps({
+			headerTag: "h3",
+			bodyTag: "fieldset",
+			transitionEffect: "slideLeft",
+			onStepChanging: function (event, currentIndex, newIndex)
+			{
+				// Allways allow previous action even if the current form is not valid!
+				if (currentIndex > newIndex)
+				{
+					return true;
+				}
+				// Forbid next action on "Warning" step if the user is to young
+				//if (newIndex === 3 && Number($("#age-2").val()) < 18)
+				//{
+				//    return false;
+				//}
+				// Needed in some cases if the user went back (clean up)
+				if (currentIndex < newIndex)
+				{
+					// To remove error styles
+					form.find(".body:eq(" + newIndex + ") label.error").remove();
+					form.find(".body:eq(" + newIndex + ") .error").removeClass("error");
+				}
+				form.validate().settings.ignore = ":disabled,:hidden";
+				return form.valid();
+			},
+			onStepChanged: function (event, currentIndex, priorIndex)
+			{
+				// Used to skip the "Warning" step if the user is old enough.
+				if (currentIndex === 2 && Number($("#age-2").val()) >= 18)
+				{
+					form.steps("next");
+				}
+				//// Used to skip the "Warning" step if the user is old enough and wants to the previous step.
+				if (currentIndex === 2 && priorIndex === 3)
+				{
+					form.steps("previous");
+				}
+			},
+			onFinishing: function (event, currentIndex)
+			{
+				form.validate().settings.ignore = ":disabled";
+				return form.valid();
+			},
+			onFinished: function (event, currentIndex)
+			{
+				//alert("Submitted!");
+				form.submit();
+			}
+		}).validate({
+			errorPlacement: function errorPlacement(error, element) { element.before(error); },
+			rules: {
+				confirm: {
+					equalTo: "#password-2"
+				}
+			}
+		});
+
+		$(document).ready(function () {
+			jQuery.extend(jQuery.validator.messages, {
+				required: "Este campo es obligatorio.",
+				remote: "Por favor, rellene este campo.",
+				email: "Por favor, escriba una dirección de correo válida",
+				url: "Por favor, escriba una URL válida.",
+				date: "Por favor, escriba una fecha válida.",
+				dateISO: "Por favor, escriba una fecha (ISO) válida.",
+				number: "Por favor, escriba un número entero válido.",
+				digits: "Por favor, escriba sólo dígitos.",
+				creditcard: "Por favor, escriba un número de tarjeta válido.",
+				equalTo: "Por favor, escriba el mismo valor de nuevo.",
+				accept: "Por favor, escriba un valor con una extensión aceptada.",
+				maxlength: jQuery.validator.format("Por favor, no escriba más de {0} caracteres."),
+				minlength: jQuery.validator.format("Por favor, no escriba menos de {0} caracteres."),
+				rangelength: jQuery.validator.format("Por favor, escriba un valor entre {0} y {1} caracteres."),
+				range: jQuery.validator.format("Por favor, escriba un valor entre {0} y {1}."),
+				max: jQuery.validator.format("Por favor, escriba un valor menor o igual a {0}."),
+				min: jQuery.validator.format("Por favor, escriba un valor mayor o igual a {0}.")
+			});
+		});
+
+	</script>
+
+	<script>
+
+		$("#botonMostrarP").on("click", function () {
+			$('#modalP').modal('show');
+		});
+
+		$("#botonMostrarQRS").on("click", function () {
+			$('#modalQRS').modal('show');
+		});
+
+		$("#botonMostrarST").on("click", function () {
+			$('#modalST').modal('show');
+		});
+
+	</script>
+}

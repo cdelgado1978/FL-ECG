@@ -1,0 +1,66 @@
+﻿@model ECG_DB.motivos_visita
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Detalle de Motivo</h2>
+
+<div>
+    @*<h4>motivos_visita</h4>*@
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.motivo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.motivo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fecha_creacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fecha_creacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.usuario)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.usuario)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ultima_actualizacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ultima_actualizacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.usuario_ultima_actualizacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.usuario_ultima_actualizacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.activo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.activo)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.motivo_id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

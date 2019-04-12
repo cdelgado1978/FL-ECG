@@ -1,0 +1,116 @@
+﻿@using System.Collections
+@model ECG_DB.paciente
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Detalle del Paciente: @Model.FullName</h2>
+
+<div class="row">
+    @*<h4>paciente</h4>*@
+    <hr />
+    <div class="col-md-6">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.nombre)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.nombre)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.apellidos)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.apellidos)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.fecha_nacimiento)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.fecha_nacimiento)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.genero)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.genero)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.activo)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.activo)
+            </dd>
+
+        </dl>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Estudios Realizados</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table">
+                    <tr>
+                        <th>
+                            @Html.DisplayName("ECG ID")
+                        </th>
+                        <th>
+                            @Html.DisplayName("Fecha Estudio")
+                        </th>
+                        <th>
+                            @Html.DisplayName("Digitado Por")
+                        </th>
+                        <th>
+                            @Html.DisplayName("Motivo Visita")
+                        </th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in (IEnumerable<ECG_DB.ecg>) @ViewBag.Estudios)
+                    {
+                        <tr>
+                            <td>
+                                @{
+                                    var _EcgID = (int) item.ecg_id;
+                                }
+                                @Html.DisplayFor(modelItem => _EcgID)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.fecha_estudio)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.digitado_por)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.motivos_visita.motivo)
+                            </td>
+
+                            <td>
+                                @*@Html.ActionLink("Edit", "Edit", new { id=item.ecg_id }) |
+                    @Html.ActionLink("Details", "Details", new { id=item.ecg_id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.ecg_id })*@
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr />
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.paciente_id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+

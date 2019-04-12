@@ -1,0 +1,129 @@
+﻿
+@{
+	ViewBag.Title = "InfoAdult";
+}
+
+<h2>Electrocardiograma en el paciente adulto</h2>
+
+<p><span style="text-decoration: underline;"><strong>Concepto</strong></span></p>
+<p>Es un galvan&oacute;metro que capta la presencia el sentido y la intensidad de las corrientes el&eacute;ctricas<br /> El registro gr&aacute;fica los potenciales el&eacute;ctricos que emanan del coraz&oacute;n</p>
+<table style="height: 169px; width: 896px;">
+	<tbody>
+		<tr>
+			<td style="width: 449px;">
+				<p><strong>Electrodos</strong></p>
+				<ul>
+					<li>rojo RA (brazo derecho)</li>
+					<li>verde LF (pie izquierdo)</li>
+					<li>negro RF (pie derecho)</li>
+					<li>blanco o gris C (pecho)</li>
+				</ul>
+			</td>
+			<td style="width: 56px;"><img src="~/Content/Images/Localización del eje del complejo QRS.PNG" alt="" width="293" height="206" /></td>
+			<td style="width: 144px;"><img src="~/Content/Images/IntervaloRR.PNG" alt="" width="366" height="204" /></td>
+		</tr>
+		<tr>
+			<td style="width: 449px;">
+				<p><strong>Modo:</strong></p>
+				<p>Ideal desplazamiento del papel a 25 mm seg (dato variable)</p>
+				<p><strong>&nbsp;Medici&oacute;n de la FC:</strong></p>
+				Ritmo regular fc 300/RR
+				<p>Ritmos irregulares con la velocidad del papel a 25 contar cuantos complejos qrs hay entre 15 l&iacute;neas gruesas y multiplicar por 20 con lo que se obtendr&aacute; la FC</p>
+			</td>
+			<td style="width: 56px;">&nbsp;<img src="~/Content/Images/VoltajeTiempo.PNG" alt="" width="250" height="225" /></td>
+			<td style="width: 144px;">&nbsp;<img src="~/Content/Images/EsquemaElectroNormal.PNG" alt="" width="339" height="278" /></td>
+		</tr>
+		<tr>
+			<td style="width: 449px;">
+				<p><strong><img src="~/Content/Images/Duracion.PNG" alt="" width="325" height="213" /></strong></p>
+			</td>
+			<td style="width: 56px;"><img src="~/Content/Images/Voltaje.PNG" alt="" width="393" height="223" /></td>
+			<td style="width: 144px;">&nbsp;</td>
+		</tr>
+	</tbody>
+</table>
+
+<br />
+
+<p><img src="~/Content/Images/Morfologia del ascenso del ST.PNG" alt="" width="641" height="57" /></p>
+
+<div style="text-align: center;">
+
+	<table width="408" border="1">
+		<tbody>
+			<tr>
+				<td width="158">Derivaci&oacute;n QRS</td>
+				<td width="96">Derivaci&oacute;n perpendicular</td>
+				<td width="96">R (+) eje</td>
+				<td width="58">S (-) eje</td>
+			</tr>
+			<tr>
+				<td>DI</td>
+				<td>aVF</td>
+				<td>+90&deg;</td>
+				<td>-90&deg;</td>
+			</tr>
+			<tr>
+				<td>DII</td>
+				<td>aVL</td>
+				<td>-30&deg;</td>
+				<td>+150&deg;</td>
+			</tr>
+			<tr>
+				<td>DIII</td>
+				<td>aVR</td>
+				<td>-150&deg;</td>
+				<td>+30&deg;</td>
+			</tr>
+			<tr>
+				<td>aVF</td>
+				<td>DI</td>
+				<td>0&deg;</td>
+				<td>+-180&deg;</td>
+			</tr>
+			<tr>
+				<td>aVR</td>
+				<td>DIII</td>
+				<td>+120&deg;</td>
+				<td>-60&deg;</td>
+			</tr>
+			<tr>
+				<td>aVL</td>
+				<td>DII</td>
+				<td>+60&deg;</td>
+				<td>-120&deg;</td>
+			</tr>
+		</tbody>
+	</table>
+
+</div>
+<br />
+
+<p><img src="~/Content/Images/hallazgos.PNG" alt="" width="613" height="259" /></p>
+
+<br />
+
+<table style="height: 151px; width: 1014px;">
+	<tbody>
+		<tr>
+			<td style="width: 278px;"><img src="~/Content/Images/AspectoMorfologico.PNG" alt="" width="375" height="183" /></td>
+			<td style="width: 259px;">&nbsp;<img src="~/Content/Images/MorfologiasPatologicas.PNG" width="583" height="247" /></td>
+		</tr>
+	</tbody>
+</table>
+
+<br />
+<br />
+
+<h3><strong>Fibrilaci&oacute;n</strong></h3>
+<p><strong><img src="~/Content/Images/Fibrilacion.PNG" alt="" width="892" height="194" /></strong></p>
+<h3><strong>Aleteo</strong></h3>
+<p><strong><img src="~/Content/Images/Aleteo.PNG" alt="" width="892" height="194" /></strong></p>
+
+<br />
+<br />
+
+
+@Html.ActionLink("Regresar a la portada", "NuevoECG")
+
+

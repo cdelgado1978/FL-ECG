@@ -1,0 +1,790 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model.Store" Provider="Npgsql" ProviderManifestToken="10.4" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int4" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClaimType" Type="varchar" MaxLength="256" />
+          <Property Name="ClaimValue" Type="varchar" MaxLength="256" />
+          <Property Name="UserId" Type="varchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogins">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+          </Key>
+          <Property Name="UserId" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="LoginProvider" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProviderKey" Type="varchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="RoleId" Type="varchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="256" Nullable="false" />
+          <Property Name="PasswordHash" Type="varchar" MaxLength="256" />
+          <Property Name="SecurityStamp" Type="varchar" MaxLength="256" />
+          <Property Name="Email" Type="varchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bool" Nullable="false" />
+          <Property Name="PhoneNumber" Type="varchar" MaxLength="256" />
+          <Property Name="PhoneNumberConfirmed" Type="bool" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bool" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="timestamp" />
+          <Property Name="LockoutEnabled" Type="bool" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int4" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ecg">
+          <Key>
+            <PropertyRef Name="ecg_id" />
+          </Key>
+          <Property Name="ecg_id" Type="numeric" Precision="19" Scale="4" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fecha_estudio" Type="date" Nullable="false" />
+          <Property Name="digitado_por" Type="varchar" MaxLength="90" />
+          <Property Name="paciente_id" Type="numeric" Precision="19" Scale="4" />
+          <Property Name="pediatrico" Type="bool" />
+          <Property Name="motivo_id" Type="numeric" Precision="19" Scale="4" />
+        </EntityType>
+        <EntityType Name="ecg_detalle">
+          <Key>
+            <PropertyRef Name="ecg_det_id" />
+          </Key>
+          <Property Name="ecg_det_id" Type="numeric" Precision="19" Scale="4" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ecg_id" Type="numeric" Precision="19" Scale="4" />
+          <Property Name="ritmo_id" Type="numeric" Precision="19" Scale="4" />
+          <Property Name="deriv_di_ondap" Type="bpchar" MaxLength="1" />
+          <Property Name="deriv_avf_ondap" Type="bpchar" MaxLength="1" />
+          <Property Name="ondap_antes_qrs" Type="bool" />
+          <Property Name="seq_pqrs_todos_complejo" Type="bool" />
+          <Property Name="duracion_ondap" Type="numeric" Precision="19" Scale="4" />
+          <Property Name="amplitud_ondap" Type="numeric" Precision="19" Scale="4" />
+          <Property Name="intervalo_pr" Type="numeric" Precision="19" Scale="4" />
+          <Property Name="deriv_di_qrs_r_u_s" Type="bpchar" MaxLength="1" />
+          <Property Name="deriv_avf_qrs_r_u_s" Type="bpchar" MaxLength="1" />
+          <Property Name="complejos_qrs" Type="bool" />
+          <Property Name="morfologiaqrs_id" Type="numeric" Precision="19" Scale="4" />
+          <Property Name="amplitud_r_v1_v2" Type="numeric" Precision="19" Scale="4" />
+          <Property Name="amplitud_s_v1_v2" Type="numeric" Precision="19" Scale="4" />
+          <Property Name="amplitud_r_v5_v6" Type="numeric" Precision="19" Scale="4" />
+          <Property Name="amplitud_s_v5_v6" Type="numeric" Precision="19" Scale="4" />
+          <Property Name="qrs_isodifasico_en" Type="varchar" MaxLength="40" />
+          <Property Name="intervalo_qt" Type="numeric" Precision="19" Scale="4" />
+          <Property Name="r_r" Type="numeric" Precision="19" Scale="4" />
+          <Property Name="st_isoelectrico" Type="bool" />
+          <Property Name="onda_t_v1_v2" Type="bpchar" MaxLength="1" />
+          <Property Name="onda_t_v5_v6" Type="bpchar" MaxLength="1" />
+          <Property Name="presencia_onda_q" Type="bool" />
+          <Property Name="pico_mas_alto_en" Type="varchar" MaxLength="5" />
+          <Property Name="profundida_ondaq" Type="numeric" Precision="19" Scale="4" />
+          <Property Name="duracion_ondaq" Type="numeric" Precision="19" Scale="4" />
+          <Property Name="supradesnivel_st" Type="bool" />
+          <Property Name="supradesnivel_st_en" Type="varchar" MaxLength="40" />
+          <Property Name="infradesnivel_st" Type="bool" />
+          <Property Name="infradesnivel_st_en" Type="varchar" MaxLength="40" />
+          <Property Name="duracion_qrs" Type="numeric" Precision="19" Scale="4" />
+          <Property Name="predominio_s_r_en" Type="bpchar" MaxLength="1" />
+          <Property Name="predominio_s_r_val" Type="bpchar" MaxLength="1" />
+          <Property Name="observa_aleteo_auricular" Type="bool" />
+        </EntityType>
+        <EntityType Name="ecg_ritmo">
+          <Key>
+            <PropertyRef Name="ritmo_id" />
+          </Key>
+          <Property Name="ritmo_id" Type="numeric" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="ritmo" Type="varchar" MaxLength="40" Nullable="false" />
+        </EntityType>
+        <EntityType Name="morfologia_qrs">
+          <Key>
+            <PropertyRef Name="morfologiaqrs_id" />
+          </Key>
+          <Property Name="morfologiaqrs_id" Type="numeric" Precision="19" Scale="4" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="morfologia_qrs" Type="varchar" MaxLength="40" Nullable="false" />
+        </EntityType>
+        <EntityType Name="motivos_visita">
+          <Key>
+            <PropertyRef Name="motivo_id" />
+          </Key>
+          <Property Name="motivo_id" Type="numeric" Precision="19" Scale="4" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="motivo" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="fecha_creacion" Type="date" Nullable="false" />
+          <Property Name="usuario" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="ultima_actualizacion" Type="date" />
+          <Property Name="usuario_ultima_actualizacion" Type="varchar" MaxLength="40" />
+          <Property Name="activo" Type="bool" Nullable="false" />
+        </EntityType>
+        <EntityType Name="paciente">
+          <Key>
+            <PropertyRef Name="paciente_id" />
+          </Key>
+          <Property Name="paciente_id" Type="numeric" Precision="19" Scale="4" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="apellidos" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="fecha_nacimiento" Type="date" Nullable="false" />
+          <Property Name="activo" Type="bool" Nullable="false" />
+          <Property Name="fecha_creacion" Type="date" Nullable="false" />
+          <Property Name="creado_por" Type="varchar" MaxLength="80" />
+          <Property Name="fecha_ultimamodificacion" Type="date" />
+          <Property Name="modificado_por" Type="varchar" MaxLength="80" />
+          <Property Name="genero" Type="bpchar" MaxLength="1" />
+        </EntityType>
+        <Association Name="ecg_ecg_detalle">
+          <End Role="ecg" Type="Self.ecg" Multiplicity="0..1" />
+          <End Role="ecg_detalle" Type="Self.ecg_detalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ecg">
+              <PropertyRef Name="ecg_id" />
+            </Principal>
+            <Dependent Role="ecg_detalle">
+              <PropertyRef Name="ecg_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ecg_ritmo_ecg_detalle">
+          <End Role="ecg_ritmo" Type="Self.ecg_ritmo" Multiplicity="0..1" />
+          <End Role="ecg_detalle" Type="Self.ecg_detalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ecg_ritmo">
+              <PropertyRef Name="ritmo_id" />
+            </Principal>
+            <Dependent Role="ecg_detalle">
+              <PropertyRef Name="ritmo_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AspNetUserClaims_AspNetUsers_User_Id">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AspNetUserLogins_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AspNetUserRoles_AspNetRoles_RoleId">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetRoles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AspNetUserRoles_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="morfologia_qrs_ecg_detalle">
+          <End Role="morfologia_qrs" Type="Self.morfologia_qrs" Multiplicity="0..1" />
+          <End Role="ecg_detalle" Type="Self.ecg_detalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="morfologia_qrs">
+              <PropertyRef Name="morfologiaqrs_id" />
+            </Principal>
+            <Dependent Role="ecg_detalle">
+              <PropertyRef Name="morfologiaqrs_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="motivos_visita_ecg">
+          <End Role="motivos_visita" Type="Self.motivos_visita" Multiplicity="0..1" />
+          <End Role="ecg" Type="Self.ecg" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="motivos_visita">
+              <PropertyRef Name="motivo_id" />
+            </Principal>
+            <Dependent Role="ecg">
+              <PropertyRef Name="motivo_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="paciente_ecg">
+          <End Role="paciente" Type="Self.paciente" Multiplicity="0..1" />
+          <End Role="ecg" Type="Self.ecg" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="paciente">
+              <PropertyRef Name="paciente_id" />
+            </Principal>
+            <Dependent Role="ecg">
+              <PropertyRef Name="paciente_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="public" store:Type="Tables" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="public" store:Type="Tables" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="public" store:Type="Tables" />
+          <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="public" store:Type="Tables" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="public" store:Type="Tables" />
+          <EntitySet Name="ecg" EntityType="Self.ecg" Schema="public" store:Type="Tables" />
+          <EntitySet Name="ecg_detalle" EntityType="Self.ecg_detalle" Schema="public" store:Type="Tables" />
+          <EntitySet Name="ecg_ritmo" EntityType="Self.ecg_ritmo" Schema="public" store:Type="Tables" />
+          <EntitySet Name="morfologia_qrs" EntityType="Self.morfologia_qrs" Schema="public" store:Type="Tables" />
+          <EntitySet Name="motivos_visita" EntityType="Self.motivos_visita" Schema="public" store:Type="Tables" />
+          <EntitySet Name="paciente" EntityType="Self.paciente" Schema="public" store:Type="Tables" />
+          <AssociationSet Name="ecg_ecg_detalle" Association="Self.ecg_ecg_detalle">
+            <End Role="ecg" EntitySet="ecg" />
+            <End Role="ecg_detalle" EntitySet="ecg_detalle" />
+          </AssociationSet>
+          <AssociationSet Name="ecg_ritmo_ecg_detalle" Association="Self.ecg_ritmo_ecg_detalle">
+            <End Role="ecg_ritmo" EntitySet="ecg_ritmo" />
+            <End Role="ecg_detalle" EntitySet="ecg_detalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AspNetUserClaims_AspNetUsers_User_Id" Association="Self.FK_AspNetUserClaims_AspNetUsers_User_Id">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AspNetUserLogins_AspNetUsers_UserId" Association="Self.FK_AspNetUserLogins_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AspNetUserRoles_AspNetRoles_RoleId" Association="Self.FK_AspNetUserRoles_AspNetRoles_RoleId">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AspNetUserRoles_AspNetUsers_UserId" Association="Self.FK_AspNetUserRoles_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="morfologia_qrs_ecg_detalle" Association="Self.morfologia_qrs_ecg_detalle">
+            <End Role="morfologia_qrs" EntitySet="morfologia_qrs" />
+            <End Role="ecg_detalle" EntitySet="ecg_detalle" />
+          </AssociationSet>
+          <AssociationSet Name="motivos_visita_ecg" Association="Self.motivos_visita_ecg">
+            <End Role="motivos_visita" EntitySet="motivos_visita" />
+            <End Role="ecg" EntitySet="ecg" />
+          </AssociationSet>
+          <AssociationSet Name="paciente_ecg" Association="Self.paciente_ecg">
+            <End Role="paciente" EntitySet="paciente" />
+            <End Role="ecg" EntitySet="ecg" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="EcgEntities" annotation:LazyLoadingEnabled="true" >
+          <EntitySet Name="motivos_visita" EntityType="Model.motivos_visita" />
+          <EntitySet Name="pacientes" EntityType="Model.paciente" />
+          <EntitySet Name="AspNetRoles" EntityType="Model.AspNetRole" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Model.AspNetUserClaim" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Model.AspNetUserLogin" />
+          <EntitySet Name="AspNetUsers" EntityType="Model.AspNetUser" />
+          <EntitySet Name="ecgs" EntityType="Model.ecg" />
+          <EntitySet Name="ecg_detalle" EntityType="Model.ecg_detalle" />
+          <EntitySet Name="ecg_ritmo" EntityType="Model.ecg_ritmo" />
+          <EntitySet Name="morfologia_qrs" EntityType="Model.morfologia_qrs" />
+          <AssociationSet Name="FK_AspNetUserClaims_AspNetUsers_User_Id" Association="Model.FK_AspNetUserClaims_AspNetUsers_User_Id">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaim" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AspNetUserLogins_AspNetUsers_UserId" Association="Model.FK_AspNetUserLogins_AspNetUsers_UserId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogin" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="ecg_ecg_detalle" Association="Model.ecg_ecg_detalle">
+            <End Role="ecg" EntitySet="ecgs" />
+            <End Role="ecg_detalle" EntitySet="ecg_detalle" />
+          </AssociationSet>
+          <AssociationSet Name="paciente_ecg" Association="Model.paciente_ecg">
+            <End Role="paciente" EntitySet="pacientes" />
+            <End Role="ecg" EntitySet="ecgs" />
+          </AssociationSet>
+          <AssociationSet Name="ecg_ritmo_ecg_detalle" Association="Model.ecg_ritmo_ecg_detalle">
+            <End Role="ecg_ritmo" EntitySet="ecg_ritmo" />
+            <End Role="ecg_detalle" EntitySet="ecg_detalle" />
+          </AssociationSet>
+          <AssociationSet Name="morfologia_qrs_ecg_detalle" Association="Model.morfologia_qrs_ecg_detalle">
+            <End Role="morfologia_qrs" EntitySet="morfologia_qrs" />
+            <End Role="ecg_detalle" EntitySet="ecg_detalle" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserRoles" Association="Model.AspNetUserRoles">
+            <End Role="AspNetRole" EntitySet="AspNetRoles" />
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <AssociationSet Name="motivos_visita_ecg" Association="Model.motivos_visita_ecg">
+            <End Role="motivos_visita" EntitySet="motivos_visita" />
+            <End Role="ecg" EntitySet="ecgs" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="motivos_visita">
+          <Key>
+            <PropertyRef Name="motivo_id" />
+          </Key>
+          <Property Name="motivo_id" Type="Decimal" Nullable="false" Precision="19" Scale="4" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="motivo" Type="String" Nullable="false" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="fecha_creacion" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="usuario" Type="String" Nullable="false" MaxLength="40" FixedLength="true" Unicode="true" />
+          <Property Name="ultima_actualizacion" Type="DateTime" Precision="0" />
+          <Property Name="usuario_ultima_actualizacion" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+          <Property Name="activo" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ecgs" Relationship="Model.motivos_visita_ecg" FromRole="motivos_visita" ToRole="ecg" />
+        </EntityType>
+        <EntityType Name="paciente">
+          <Key>
+            <PropertyRef Name="paciente_id" />
+          </Key>
+          <Property Name="paciente_id" Type="Decimal" Nullable="false" Precision="19" Scale="4" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="60" FixedLength="true" Unicode="true" />
+          <Property Name="apellidos" Type="String" Nullable="false" MaxLength="60" FixedLength="true" Unicode="true" />
+          <Property Name="fecha_nacimiento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="activo" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ecgs" Relationship="Model.paciente_ecg" FromRole="paciente" ToRole="ecg" />
+          <Property Name="fecha_creacion" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="creado_por" Type="String" MaxLength="80" FixedLength="true" Unicode="true" />
+          <Property Name="fecha_ultimamodificacion" Type="DateTime" Precision="0" />
+          <Property Name="modificado_por" Type="String" MaxLength="80" FixedLength="true" Unicode="true" />
+          <Property Name="genero" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="AspNetRole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Model.AspNetUserRoles" FromRole="AspNetRole" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClaimType" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="Model.FK_AspNetUserClaims_AspNetUsers_User_Id" FromRole="AspNetUserClaim" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogin">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+          </Key>
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ProviderKey" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="Model.FK_AspNetUserLogins_AspNetUsers_UserId" FromRole="AspNetUserLogin" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="AspNetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="PasswordHash" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="6" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="Model.FK_AspNetUserClaims_AspNetUsers_User_Id" FromRole="AspNetUser" ToRole="AspNetUserClaim" />
+          <NavigationProperty Name="AspNetUserLogins" Relationship="Model.FK_AspNetUserLogins_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserLogin" />
+          <NavigationProperty Name="AspNetRoles" Relationship="Model.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
+        </EntityType>
+        <EntityType Name="ecg">
+          <Key>
+            <PropertyRef Name="ecg_id" />
+          </Key>
+          <Property Name="ecg_id" Type="Decimal" Nullable="false" Precision="19" Scale="4" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fecha_estudio" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="digitado_por" Type="String" MaxLength="90" FixedLength="true" Unicode="true" />
+          <Property Name="paciente_id" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="pediatrico" Type="Boolean" />
+          <NavigationProperty Name="ecg_detalle" Relationship="Model.ecg_ecg_detalle" FromRole="ecg" ToRole="ecg_detalle" />
+          <NavigationProperty Name="paciente" Relationship="Model.paciente_ecg" FromRole="ecg" ToRole="paciente" />
+          <Property Name="motivo_id" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="motivos_visita" Relationship="Model.motivos_visita_ecg" FromRole="ecg" ToRole="motivos_visita" />
+        </EntityType>
+        <EntityType Name="ecg_detalle">
+          <Key>
+            <PropertyRef Name="ecg_det_id" />
+          </Key>
+          <Property Name="ecg_det_id" Type="Decimal" Nullable="false" Precision="19" Scale="4" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ecg_id" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="ritmo_id" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="deriv_di_ondap" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="deriv_avf_ondap" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="ondap_antes_qrs" Type="Boolean" />
+          <Property Name="seq_pqrs_todos_complejo" Type="Boolean" />
+          <Property Name="duracion_ondap" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="amplitud_ondap" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="intervalo_pr" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="deriv_di_qrs_r_u_s" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="deriv_avf_qrs_r_u_s" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="complejos_qrs" Type="Boolean" />
+          <Property Name="morfologiaqrs_id" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="duracion_qrs" Type="Decimal" />
+          <Property Name="amplitud_r_v1_v2" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="amplitud_s_v1_v2" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="amplitud_r_v5_v6" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="amplitud_s_v5_v6" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="intervalo_qt" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="r_r" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="st_isoelectrico" Type="Boolean" />
+          <Property Name="onda_t_v1_v2" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="onda_t_v5_v6" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="presencia_onda_q" Type="Boolean" />
+          <Property Name="pico_mas_alto_en" Type="String" MaxLength="5" FixedLength="true" Unicode="true" />
+          <Property Name="profundida_ondaq" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="duracion_ondaq" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="supradesnivel_st" Type="Boolean" />
+          <Property Name="supradesnivel_st_en" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+          <Property Name="infradesnivel_st" Type="Boolean" />
+          <Property Name="infradesnivel_st_en" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="ecg" Relationship="Model.ecg_ecg_detalle" FromRole="ecg_detalle" ToRole="ecg" />
+          <NavigationProperty Name="ecg_ritmo" Relationship="Model.ecg_ritmo_ecg_detalle" FromRole="ecg_detalle" ToRole="ecg_ritmo" />
+          <NavigationProperty Name="morfologia_qrs" Relationship="Model.morfologia_qrs_ecg_detalle" FromRole="ecg_detalle" ToRole="morfologia_qrs" />
+          <Property Name="qrs_isodifasico_en" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+          <Property Name="predominio_s_r_en" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="predominio_s_r_val" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="observa_aleteo_auricular" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="ecg_ritmo">
+          <Key>
+            <PropertyRef Name="ritmo_id" />
+          </Key>
+          <Property Name="ritmo_id" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="ritmo" Type="String" Nullable="false" MaxLength="40" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="ecg_detalle" Relationship="Model.ecg_ritmo_ecg_detalle" FromRole="ecg_ritmo" ToRole="ecg_detalle" />
+        </EntityType>
+        <EntityType Name="morfologia_qrs">
+          <Key>
+            <PropertyRef Name="morfologiaqrs_id" />
+          </Key>
+          <Property Name="morfologiaqrs_id" Type="Decimal" Nullable="false" Precision="19" Scale="4" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="morfologia_qrs1" Type="String" Nullable="false" MaxLength="40" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="ecg_detalle" Relationship="Model.morfologia_qrs_ecg_detalle" FromRole="morfologia_qrs" ToRole="ecg_detalle" />
+        </EntityType>
+        <Association Name="FK_AspNetUserClaims_AspNetUsers_User_Id">
+          <End Type="Model.AspNetUser" Role="AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Model.AspNetUserClaim" Role="AspNetUserClaim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaim">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AspNetUserLogins_AspNetUsers_UserId">
+          <End Type="Model.AspNetUser" Role="AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Model.AspNetUserLogin" Role="AspNetUserLogin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogin">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ecg_ecg_detalle">
+          <End Type="Model.ecg" Role="ecg" Multiplicity="0..1" />
+          <End Type="Model.ecg_detalle" Role="ecg_detalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ecg">
+              <PropertyRef Name="ecg_id" />
+            </Principal>
+            <Dependent Role="ecg_detalle">
+              <PropertyRef Name="ecg_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="paciente_ecg">
+          <End Type="Model.paciente" Role="paciente" Multiplicity="0..1" />
+          <End Type="Model.ecg" Role="ecg" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="paciente">
+              <PropertyRef Name="paciente_id" />
+            </Principal>
+            <Dependent Role="ecg">
+              <PropertyRef Name="paciente_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ecg_ritmo_ecg_detalle">
+          <End Type="Model.ecg_ritmo" Role="ecg_ritmo" Multiplicity="0..1" />
+          <End Type="Model.ecg_detalle" Role="ecg_detalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ecg_ritmo">
+              <PropertyRef Name="ritmo_id" />
+            </Principal>
+            <Dependent Role="ecg_detalle">
+              <PropertyRef Name="ritmo_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="morfologia_qrs_ecg_detalle">
+          <End Type="Model.morfologia_qrs" Role="morfologia_qrs" Multiplicity="0..1" />
+          <End Type="Model.ecg_detalle" Role="ecg_detalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="morfologia_qrs">
+              <PropertyRef Name="morfologiaqrs_id" />
+            </Principal>
+            <Dependent Role="ecg_detalle">
+              <PropertyRef Name="morfologiaqrs_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AspNetUserRoles">
+          <End Type="Model.AspNetRole" Role="AspNetRole" Multiplicity="*" />
+          <End Type="Model.AspNetUser" Role="AspNetUser" Multiplicity="*" />
+        </Association>
+        <Association Name="motivos_visita_ecg">
+          <End Type="Model.motivos_visita" Role="motivos_visita" Multiplicity="0..1" />
+          <End Type="Model.ecg" Role="ecg" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="motivos_visita">
+              <PropertyRef Name="motivo_id" />
+            </Principal>
+            <Dependent Role="ecg">
+              <PropertyRef Name="motivo_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="EcgEntities" >
+          <EntitySetMapping Name="motivos_visita">
+            <EntityTypeMapping TypeName="Model.motivos_visita">
+              <MappingFragment StoreEntitySet="motivos_visita">
+                <ScalarProperty Name="activo" ColumnName="activo" />
+                <ScalarProperty Name="usuario_ultima_actualizacion" ColumnName="usuario_ultima_actualizacion" />
+                <ScalarProperty Name="ultima_actualizacion" ColumnName="ultima_actualizacion" />
+                <ScalarProperty Name="usuario" ColumnName="usuario" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="motivo" ColumnName="motivo" />
+                <ScalarProperty Name="motivo_id" ColumnName="motivo_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="pacientes">
+            <EntityTypeMapping TypeName="Model.paciente">
+              <MappingFragment StoreEntitySet="paciente">
+                <ScalarProperty Name="genero" ColumnName="genero" />
+                <ScalarProperty Name="modificado_por" ColumnName="modificado_por" />
+                <ScalarProperty Name="fecha_ultimamodificacion" ColumnName="fecha_ultimamodificacion" />
+                <ScalarProperty Name="creado_por" ColumnName="creado_por" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="activo" ColumnName="activo" />
+                <ScalarProperty Name="fecha_nacimiento" ColumnName="fecha_nacimiento" />
+                <ScalarProperty Name="apellidos" ColumnName="apellidos" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="paciente_id" ColumnName="paciente_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetRoles">
+            <EntityTypeMapping TypeName="Model.AspNetRole">
+              <MappingFragment StoreEntitySet="AspNetRoles">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserClaims">
+            <EntityTypeMapping TypeName="Model.AspNetUserClaim">
+              <MappingFragment StoreEntitySet="AspNetUserClaims">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserLogins">
+            <EntityTypeMapping TypeName="Model.AspNetUserLogin">
+              <MappingFragment StoreEntitySet="AspNetUserLogins">
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="Model.AspNetUser">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ecgs">
+            <EntityTypeMapping TypeName="Model.ecg">
+              <MappingFragment StoreEntitySet="ecg">
+                <ScalarProperty Name="motivo_id" ColumnName="motivo_id" />
+                <ScalarProperty Name="pediatrico" ColumnName="pediatrico" />
+                <ScalarProperty Name="paciente_id" ColumnName="paciente_id" />
+                <ScalarProperty Name="digitado_por" ColumnName="digitado_por" />
+                <ScalarProperty Name="fecha_estudio" ColumnName="fecha_estudio" />
+                <ScalarProperty Name="ecg_id" ColumnName="ecg_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ecg_detalle">
+            <EntityTypeMapping TypeName="Model.ecg_detalle">
+              <MappingFragment StoreEntitySet="ecg_detalle">
+                <ScalarProperty Name="observa_aleteo_auricular" ColumnName="observa_aleteo_auricular" />
+                <ScalarProperty Name="predominio_s_r_val" ColumnName="predominio_s_r_val" />
+                <ScalarProperty Name="predominio_s_r_en" ColumnName="predominio_s_r_en" />
+                <ScalarProperty Name="qrs_isodifasico_en" ColumnName="qrs_isodifasico_en" />
+                <ScalarProperty Name="infradesnivel_st_en" ColumnName="infradesnivel_st_en" />
+                <ScalarProperty Name="infradesnivel_st" ColumnName="infradesnivel_st" />
+                <ScalarProperty Name="supradesnivel_st_en" ColumnName="supradesnivel_st_en" />
+                <ScalarProperty Name="supradesnivel_st" ColumnName="supradesnivel_st" />
+                <ScalarProperty Name="duracion_ondaq" ColumnName="duracion_ondaq" />
+                <ScalarProperty Name="profundida_ondaq" ColumnName="profundida_ondaq" />
+                <ScalarProperty Name="pico_mas_alto_en" ColumnName="pico_mas_alto_en" />
+                <ScalarProperty Name="presencia_onda_q" ColumnName="presencia_onda_q" />
+                <ScalarProperty Name="onda_t_v5_v6" ColumnName="onda_t_v5_v6" />
+                <ScalarProperty Name="onda_t_v1_v2" ColumnName="onda_t_v1_v2" />
+                <ScalarProperty Name="st_isoelectrico" ColumnName="st_isoelectrico" />
+                <ScalarProperty Name="r_r" ColumnName="r_r" />
+                <ScalarProperty Name="intervalo_qt" ColumnName="intervalo_qt" />
+                <ScalarProperty Name="amplitud_s_v5_v6" ColumnName="amplitud_s_v5_v6" />
+                <ScalarProperty Name="amplitud_r_v5_v6" ColumnName="amplitud_r_v5_v6" />
+                <ScalarProperty Name="amplitud_s_v1_v2" ColumnName="amplitud_s_v1_v2" />
+                <ScalarProperty Name="amplitud_r_v1_v2" ColumnName="amplitud_r_v1_v2" />
+                <ScalarProperty Name="duracion_qrs" ColumnName="duracion_qrs" />
+                <ScalarProperty Name="morfologiaqrs_id" ColumnName="morfologiaqrs_id" />
+                <ScalarProperty Name="complejos_qrs" ColumnName="complejos_qrs" />
+                <ScalarProperty Name="deriv_avf_qrs_r_u_s" ColumnName="deriv_avf_qrs_r_u_s" />
+                <ScalarProperty Name="deriv_di_qrs_r_u_s" ColumnName="deriv_di_qrs_r_u_s" />
+                <ScalarProperty Name="intervalo_pr" ColumnName="intervalo_pr" />
+                <ScalarProperty Name="amplitud_ondap" ColumnName="amplitud_ondap" />
+                <ScalarProperty Name="duracion_ondap" ColumnName="duracion_ondap" />
+                <ScalarProperty Name="seq_pqrs_todos_complejo" ColumnName="seq_pqrs_todos_complejo" />
+                <ScalarProperty Name="ondap_antes_qrs" ColumnName="ondap_antes_qrs" />
+                <ScalarProperty Name="deriv_avf_ondap" ColumnName="deriv_avf_ondap" />
+                <ScalarProperty Name="deriv_di_ondap" ColumnName="deriv_di_ondap" />
+                <ScalarProperty Name="ritmo_id" ColumnName="ritmo_id" />
+                <ScalarProperty Name="ecg_id" ColumnName="ecg_id" />
+                <ScalarProperty Name="ecg_det_id" ColumnName="ecg_det_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ecg_ritmo">
+            <EntityTypeMapping TypeName="Model.ecg_ritmo">
+              <MappingFragment StoreEntitySet="ecg_ritmo">
+                <ScalarProperty Name="ritmo" ColumnName="ritmo" />
+                <ScalarProperty Name="ritmo_id" ColumnName="ritmo_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="morfologia_qrs">
+            <EntityTypeMapping TypeName="Model.morfologia_qrs">
+              <MappingFragment StoreEntitySet="morfologia_qrs">
+                <ScalarProperty Name="morfologia_qrs1" ColumnName="morfologia_qrs" />
+                <ScalarProperty Name="morfologiaqrs_id" ColumnName="morfologiaqrs_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="Model.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetUser">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+            <EndProperty Name="AspNetRole">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

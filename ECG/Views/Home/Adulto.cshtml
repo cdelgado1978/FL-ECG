@@ -1,0 +1,390 @@
+﻿@model ECG.Models.EcgModels.Adulto
+
+@{
+    ViewBag.Title = "Adultos";
+}
+<h2>ECG - Adultos</h2>
+<hr />
+
+@using (Html.BeginForm("Adulto", "Home", null, FormMethod.Post, htmlAttributes: new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    <div id="EcgQuestions">
+    
+    <input type="hidden" id="ecg_id" name="ecg_id" value="@ViewBag.ecgId" />
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Onda P</h3>
+                </div>
+                <div class="panel-body">
+
+                    <div class="form-group">
+                        @Html.Label("Ritmo", htmlAttributes: new {@class = "control-label col-md-7"})
+                        <div class="col-md-5">
+                            @Html.DropDownList("ritmo_id", (IEnumerable<SelectListItem>) ViewBag.ritmos, new {@class = "form-control"})
+                            @Html.ValidationMessageFor(model => model.ritmo_id, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                    <div class="form-group input-group-sm">
+                        @*Derivación D I onda P*@
+                        @Html.Label("Derivación D I", htmlAttributes: new {@class = "control-label col-md-7"})
+                        <div class="col-md-5">
+                            <select id="deriv_di_ondap" name="deriv_di_ondap" class="form-control">
+                                <option value="+">+</option>
+                                <option value="-">-</option>
+                            </select>
+                            @Html.ValidationMessageFor(model => model.deriv_di_ondap, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @*Derivación aVF onda P*@
+                        @Html.Label("Derivación aVF", htmlAttributes: new {@class = "control-label col-md-7"})
+                        <div class="col-md-5">
+                            <select id="deriv_avf_ondap" name="deriv_avf_ondap" class="form-control dropdown">
+                                <option value="+">+</option>
+                                <option value="-">-</option>
+                            </select>
+                            @Html.ValidationMessageFor(model => model.deriv_avf_ondap, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @*¿Onda P antes de cada QRS?*@
+                        @Html.Label("¿Onda P antes de cada QRS?", htmlAttributes: new {@class = "control-label col-md-7"})
+                        <div class="col-md-5">
+                            @Html.EditorFor(model => model.ondaP_antes_qrs, new {htmlAttributes = new {@class = "form-control"}})
+                            @Html.ValidationMessageFor(model => model.ondaP_antes_qrs, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @*¿Secuencia P-QRS en todos los complejos?*@
+                        @Html.Label("¿Secuencia P-QRS en todos los complejos?", htmlAttributes: new {@class = "control-label col-md-7"})
+                        <div class="col-md-5">
+                            @Html.EditorFor(model => model.seq_pqrs_todos_complejo, new {htmlAttributes = new {@class = "form-control"}})
+                            @Html.ValidationMessageFor(model => model.seq_pqrs_todos_complejo, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @*Duración onda P (nº de cuadrados pequeños):*@
+                        @Html.Label("Duración", htmlAttributes: new {@class = "control-label col-md-7"})
+                        <div class="col-md-5">
+                            @Html.EditorFor(model => model.duracion_ondap, new {htmlAttributes = new {@class = "form-control"}})
+                            @Html.ValidationMessageFor(model => model.duracion_ondap, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @*Amplitud onda P (mm)*@
+                        @Html.Label("Amplitud (mm)", htmlAttributes: new {@class = "control-label col-md-7"})
+                        <div class="col-md-5">
+                            @Html.EditorFor(model => model.amplitud_ondap, new {htmlAttributes = new {@class = "form-control"}})
+                            @Html.ValidationMessageFor(model => model.amplitud_ondap, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @*Intervalo PR (nº de cuadrados pequeños en DII):*@
+                        @Html.Label("Intervalo PR", htmlAttributes: new {@class = "control-label col-md-7"})
+                        <div class="col-md-5">
+                            @Html.EditorFor(model => model.intervalo_pr, new {htmlAttributes = new {@class = "form-control"}})
+                            @Html.ValidationMessageFor(model => model.intervalo_pr, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div> @*---- Onda P ----*@
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">QRS</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            @*Derivación D I QRS predominio onda R  u onda S*@
+                            @Html.Label("Derivación D I QRS predominio onda R  u onda S", htmlAttributes: new {@class = "control-label col-md-7"})
+                            <div class="col-md-5">
+
+                                <select id="deriv_di_qrs_r_u_s" name="deriv_di_qrs_r_u_s" class="form-control dropdown">
+                                    <option value="R">R</option>
+                                    <option value="S">S</option>
+                                </select>
+                                @Html.ValidationMessageFor(model => model.deriv_di_qrs_r_u_s, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @*Derivación aVF QRS predominio onda R u onda S*@
+                            @Html.Label("Derivación aVF QRS predominio onda R u onda S", htmlAttributes: new {@class = "control-label col-md-7"})
+                            <div class="col-md-5">
+                                <select id="deriv_di_qrs_r_u_s" name="deriv_di_qrs_r_u_s" class="form-control dropdown">
+                                    <option value="R">R</option>
+                                    <option value="S">S</option>
+                                </select>
+                                @Html.ValidationMessageFor(model => model.deriv_avf_qrs_r_u_s, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @*¿Se observan complejos QRS que se anticipan a la frecuencia prevista? (con o sin alteración de la morfología del complejo)*@
+                            @Html.Label("¿Se observan complejos QRS que se anticipan a la frecuencia prevista? (con o sin alteración de la morfología del complejo)", htmlAttributes: new {@class = "control-label col-md-7"})
+                            <div class="col-md-5">
+                                @Html.EditorFor(model => model.complejos_qrs, new {htmlAttributes = new {@class = "form-control"}})
+                                @Html.ValidationMessageFor(model => model.complejos_qrs, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @*Morfología del complejo QRS*@
+                            @Html.Label("Morfología del complejo QRS", htmlAttributes: new {@class = "control-label col-md-7"})
+                            <div class="col-md-5">
+                                @Html.DropDownList("morfologiaqrs_id", (IEnumerable<SelectListItem>) ViewBag.morfologia, new {@class = "form-control"})
+                                @Html.ValidationMessageFor(model => model.morfologiaqrs_id, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @*Duración de QRS (nº de cuadrados pequeños):*@
+                            @Html.Label("Duración de QRS (nº de cuadrados pequeños):", htmlAttributes: new {@class = "control-label col-md-7"})
+                            <div class="col-md-5">
+                                @Html.EditorFor(model => model.duracion_qrs, new {htmlAttributes = new {@class = "form-control"}})
+                                @Html.ValidationMessageFor(model => model.duracion_qrs, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @*Amplitud  R V1 - V2 (mm)*@
+                            @Html.Label("Amplitud  R V1 - V2 (mm)", htmlAttributes: new {@class = "control-label col-md-7"})
+                            <div class="col-md-5">
+                                @Html.EditorFor(model => model.amplitud_r_v1_v2, new {htmlAttributes = new {@class = "form-control"}})
+                                @Html.ValidationMessageFor(model => model.amplitud_r_v1_v2, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @*Amplitud S V1 - V2 (mm)*@
+                            @Html.Label("Amplitud S V1 - V2 (mm)", htmlAttributes: new {@class = "control-label col-md-7"})
+                            <div class="col-md-5">
+                                @Html.EditorFor(model => model.amplitud_s_v1_v2, new {htmlAttributes = new {@class = "form-control"}})
+                                @Html.ValidationMessageFor(model => model.amplitud_s_v1_v2, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @*Amplitud R V5 - V6 (mm)*@
+                            @Html.Label("Amplitud R V5 - V6 (mm)", htmlAttributes: new {@class = "control-label col-md-7"})
+                            <div class="col-md-5">
+                                @Html.EditorFor(model => model.amplitud_r_v5_v6, new {htmlAttributes = new {@class = "form-control"}})
+                                @Html.ValidationMessageFor(model => model.amplitud_r_v5_v6, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @*Amplitud S V5 - V6 (mm)*@
+                            @Html.Label("Amplitud S V5 - V6 (mm)", htmlAttributes: new {@class = "control-label col-md-7"})
+                            <div class="col-md-5">
+                                @Html.EditorFor(model => model.amplitud_s_v5_v6, new {htmlAttributes = new {@class = "form-control"}})
+                                @Html.ValidationMessageFor(model => model.amplitud_s_v5_v6, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @*Derivación donde se observan QRS isodifásicos*@
+                            @Html.Label("Derivación donde se observan QRS isodifásicos", htmlAttributes: new {@class = "control-label col-md-7"})
+                            <div class="col-md-5">
+                                <select id="qrs_isodifico_en" name="qrs_isodifico_en" class="form-control dropdown">
+                                    <option value="D1">D1</option>
+                                    <option value="D2">D2</option>
+                                    <option value="D3">D3</option>
+                                    <option value="aVR">aVR</option>
+                                    <option value="aVL">aVL</option>
+                                    <option value="aVF">aVF</option>
+                                </select>
+                                @Html.ValidationMessageFor(model => model.qrs_isodifico_en, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> @*---- QRS ----*@
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">QTST</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            @*Intervalo QT (nº de cuadrados pequeños):*@
+                            @Html.Label("Intervalo QT (nº de cuadrados pequeños):", htmlAttributes: new {@class = "control-label col-md-7"})
+                            <div class="col-md-5">
+                                @Html.EditorFor(model => model.intervalo_qt, new {htmlAttributes = new {@class = "form-control"}})
+                                @Html.ValidationMessageFor(model => model.intervalo_qt, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @*R-R (nº de cuadrados pequeños):*@
+                            @Html.Label("R-R (nº de cuadrados pequeños):", htmlAttributes: new {@class = "control-label col-md-7"})
+                            <div class="col-md-5">
+                                @Html.EditorFor(model => model.r_r, new {htmlAttributes = new {@class = "form-control"}})
+                                @Html.ValidationMessageFor(model => model.r_r, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @*¿Segmento ST isoeléctrico?*@
+                            @Html.Label("¿Segmento ST isoeléctrico?", htmlAttributes: new {@class = "control-label col-md-7"})
+                            <div class="col-md-5">
+                                @Html.EditorFor(model => model.st_isoelectrico, new {htmlAttributes = new {@class = "form-control"}})
+                                @Html.ValidationMessageFor(model => model.st_isoelectrico, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @*Onda T en V1-V2*@
+                            @Html.Label("Onda T en V1-V2", htmlAttributes: new {@class = "control-label col-md-7"})
+                            <div class="col-md-5">
+                                <select id="onda_t_v1_v2" name="onda_t_v1_v2" class="form-control dropdown">
+                                    <option value="+">+</option>
+                                    <option value="-">-</option>
+                                </select>
+                                @Html.ValidationMessageFor(model => model.onda_t_v1_v2, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @*Onda T en V5-V6*@
+                            @Html.Label("Onda T en V5-V6", htmlAttributes: new {@class = "control-label col-md-7"})
+                            <div class="col-md-5">
+                                <select id="onda_t_v5_v6" name="onda_t_v5_v6" class="form-control dropdown">
+                                    <option value="+">+</option>
+                                    <option value="-">-</option>
+                                </select>
+                                @Html.ValidationMessageFor(model => model.onda_t_v5_v6, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div> @*---- QTST ----*@
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">ST</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            @*¿Tiene supradesnivel del ST en una o más derivaciones?*@
+                            @Html.Label("¿Tiene supradesnivel del ST en una o más derivaciones?", htmlAttributes: new {@class = "control-label col-md-7"})
+                            <div class="col-md-5">
+                                @Html.EditorFor(model => model.supradesnivel_st, new {htmlAttributes = new {@class = "form-control"}})
+                                @Html.ValidationMessageFor(model => model.supradesnivel_st, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @*Derivaciones adonde se lo observa:*@
+                            @Html.Label("Derivaciones adonde se lo observa:", htmlAttributes: new {@class = "control-label col-md-7"})
+                            <div class="col-md-5">
+                                <select id="supradesnivel_st_en" name="supradesnivel_st_en" class="form-control dropdown">
+                                    <option value="+">DII - DIII y AVF</option>
+                                    <option value="-">V1 - V2</option>
+                                    <option value="+">V1 - V2 - V3 - V4</option>
+                                    <option value="-">V5 - V6</option>
+                                    <option value="+">DI - AVL</option>
+                                    <option value="-">V1 A V6</option>
+                                    <option value="-">DI - AVL - V5 y V6</option>
+                                    <option value="-">En Todas</option>
+                                </select>
+                                @Html.ValidationMessageFor(model => model.supradesnivel_st_en, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @*¿Tiene infradesnivel del ST en una o más derivaciones?*@
+                            @Html.Label("¿Tiene infradesnivel del ST en una o más derivaciones?", htmlAttributes: new {@class = "control-label col-md-7"})
+                            <div class="col-md-5">
+                                @Html.EditorFor(model => model.infradesnivel_st, new {htmlAttributes = new {@class = "form-control"}})
+                                @Html.ValidationMessageFor(model => model.infradesnivel_st, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @*Derivaciones adonde se lo observa*@
+                            @Html.Label("Derivaciones adonde se lo observa:", htmlAttributes: new {@class = "control-label col-md-7"})
+                            <div class="col-md-5">
+                                <select id="infradesnivel_st_en" name="infradesnivel_st_en" class="form-control dropdown">
+                                    <option value="+">DII - DIII y AVF</option>
+                                    <option value="-">V1 - V2</option>
+                                    <option value="+">V1 - V2 - V3 - V4</option>
+                                    <option value="-">V5 - V6</option>
+                                    <option value="+">DI - AVL</option>
+                                    <option value="-">V1 A V6</option>
+                                    <option value="-">DI - AVL - V5 y V6</option>
+                                    <option value="-">En Todas</option>
+                                </select>
+                                @Html.ValidationMessageFor(model => model.infradesnivel_st_en, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> @*---- ST ----*@
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Q</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        @*Presencia de onda Q*@
+                        @Html.Label("Presencia de onda Q", htmlAttributes: new {@class = "control-label col-md-7"})
+                        <div class="col-md-5">
+                            @Html.EditorFor(model => model.presencia_onda_q, new {htmlAttributes = new {@class = "form-control"}})
+                            @Html.ValidationMessageFor(model => model.presencia_onda_q, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @*Derivación adonde se la encuentra más pronunciada**@
+                        @Html.Label("Derivación adonde se la encuentra más pronunciada", htmlAttributes: new {@class = "control-label col-md-7"})
+                        <div class="col-md-5">
+                            <select id="pico_mas_alto_en" name="pico_mas_alto_en" class="form-control dropdown">
+                                <option value="D2">D2</option>
+                                <option value="D3">D3</option>
+                                <option value="aVR">aVR</option>
+                                <option value="aVL">aVL</option>
+                                <option value="aVF">aVF</option>
+                                <option value="V1">V1</option>
+                                <option value="V2">V2</option>
+                                <option value="V3">V3</option>
+                                <option value="V4">V4</option>
+                                <option value="V5">V5</option>
+                                <option value="V6">V6</option>
+                            </select>
+                            @Html.ValidationMessageFor(model => model.pico_mas_alto_en, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @*Profundidad (amplitud) en mm de la onda Q**@
+                        @Html.Label("Profundidad (amplitud) en mm de la onda Q", htmlAttributes: new {@class = "control-label col-md-7"})
+                        <div class="col-md-5">
+                            @Html.EditorFor(model => model.profundida_ondaq, new {htmlAttributes = new {@class = "form-control"}})
+                            @Html.ValidationMessageFor(model => model.profundida_ondaq, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @*Duración en mm de la onda Q**@
+                        @Html.Label("Duración en mm de la onda Q", htmlAttributes: new {@class = "control-label col-md-7"})
+                        <div class="col-md-5">
+                            @Html.EditorFor(model => model.duracion_ondaq, new {htmlAttributes = new {@class = "form-control"}})
+                            @Html.ValidationMessageFor(model => model.duracion_ondaq, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div> @*---- Q ----*@
+    </div>
+    <hr/>
+    <br/>
+    <div class="row">
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Guardar" class="btn btn-default"/>
+            </div>
+        </div>
+    </div>
+    </div>
+}

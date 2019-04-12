@@ -1,0 +1,282 @@
+﻿@model ECG.Models.InformeEcgModel
+
+@{
+    ViewBag.Title = "ECG - Pediátrico";
+}
+
+<h2>ECG Pediátrico</h2>
+
+<div>
+    <div class="row" style="border-bottom: 1px solid black">
+        <section class="col-md-6">
+            <div>Motivo por el que se realiza el ECG</div>
+            <div>- <i>@Html.DisplayFor(model => model.motivo)</i></div>
+        </section>
+        <section class="col-md-6">
+            <section class="col-md-6"><div><b>Nombre Paciente:</b> @Html.DisplayFor(model => model.fullName)</div>
+                <div><b>Edad:</b> @Html.DisplayFor(model => model.totalmeses) Meses</div>
+                <div>@Html.DisplayFor(model => model.edad_anos) años y @Html.DisplayFor(model => model.edad_meses) Meses</div></section>
+            <section class="col-md-6">
+                @Html.ActionLink("Exportar PDF", "ImprimirReporte", new { ecgId = Model.ecg_id }, new { @class = "btn btn-default" })
+                @Html.ActionLink("Editar", "PediatricWizard", "Home", new { Id = Model.ecg_id }, new { @class = "btn btn-default" })
+            </section>
+            
+        </section>
+    </div>
+    <div class="row" style="border-bottom: 1px solid black">
+        <section class="col-md-6">
+            <p><strong>Eje QRS</strong> por localización de cuadrantes (sistema de referencia hexaxial de Park, Guntheroth)</p>
+            <table>
+                <tr>
+                    <td class="col-md-2"><img src="~/Content/Images/Cuadrante.png" width="80" /></td>
+                    <td class="col-md-4" style="border: 1px solid black">Entre @Html.DisplayFor(model => model.eje) </td>
+                    @{
+                       
+
+                        var _colorEje = (Model.eje != "0º y +90º") ? "red" : "black";
+   
+
+                    }
+                    <td class="col-md-4" style="color: @_colorEje">@Html.DisplayFor(model => model.eje_comentario)</td>
+                    @*Patológico*@
+                </tr>
+            </table>
+        </section>
+        <section class="col-md-6">
+            <table>
+                <thead>
+                    <tr>
+                        <p><strong>Identificación del eje del QRS por complejo Isodifásico</strong></p>
+                    </tr>
+                </thead>
+                <tr>
+                    <td><b>Derivación donde se observan QRS isodifásicos</b></td>
+                    <td class="col-md-2">@Html.DisplayFor(model => model.qrs_isodifasico_en)</td>
+                </tr>
+                <tr>
+                    <td><b>Derivación perpendicular a @Html.DisplayFor(model => model.qrs_isodifasico_en)</b></td>
+                    <td class="col-md-2">@Html.DisplayFor(model => model.derivacionPerpendicular_en)</td>
+                </tr>
+                <tr>
+                    <td><b>Predominio @Html.DisplayFor(model => model.predominio_s_r_en) en @Html.DisplayFor(model => model.derivacionPerpendicular_en) eje a </b></td>
+                    <td class="col-md-2">@Html.DisplayFor(model => model.qrs_isodifasico_grado)</td>
+                </tr>
+            </table>
+        </section>
+    </div>
+
+<div class="row" style="border-bottom: 1px solid black">
+    @{
+
+        var _colorPQRS = (Model.seg_pqrs_evalucion == "Patológico") ? "red" : "black";
+    }
+    <section class="col-md-6" ><b>Ritmo:</b> @Html.DisplayFor(model => model.ritmo) </section>
+    <section class="col-md-6" ><b>Evaluación:</b> <span style="color: @_colorPQRS">@Html.DisplayFor(model => model.seg_pqrs_evalucion)</span></section>
+
+</div>
+
+<div class="row" style="border-bottom: 1px solid black">
+    @{
+        var _colorFC = (Model.FrecuenciaCardiaca_dx != "Normal para la edad") ? "red" : "black";
+        var _colorSeqPQRS = (!Model.seq_pqrs_todos_complejo) ? "red" : "black";
+    }
+    <section class="col-md-6"><b>Frecuencia Cardiaca (complejo QRS):</b> @Html.DisplayFor(model => model.FrecuenciaCardiaca_ComplejoQRS) por minuto</section>
+    <section class="col-md-6" style="border-left: 1px solid black">
+        <div class="row" style="border-bottom: 1px solid black">
+            <section class="col-md-6" style="color: @_colorFC"><b>@Html.DisplayFor(model => model.FrecuenciaCardiaca_dx)</b></section>
+            <section class="col-md-6" style="border-left: 1px dotted black; color:@_colorFC;">@Html.DisplayFor(model => model.FrecuenciaCardiaca_Comentario)</section>
+        </div>
+
+        <div style="color: @_colorSeqPQRS">
+            @Html.DisplayFor(model => model.seq_pqrs_todos_complejo_comentarios)
+        </div>
+    </section>
+</div>
+    <div class="row" style="border-bottom: 1px solid black">
+        <table>
+            <tr>
+                @{
+                    var _colorEjeOndaP = (Model.eje_ondap_comentario != "Normal") ? "red" : "black";
+     
+                }
+                <td class="col-md-2"><b>Eje de la onda P (entre):</b></td>
+                <td class="col-md-2">@Html.DisplayFor(model => model.eje_ondap)</td>
+                <td class="col-md-3" style="color: @_colorEjeOndaP ">@Html.DisplayFor(model => model.eje_ondap_comentario)</td>
+                <td class="col-md-5" style="border-bottom: 1px solid black; color: @_colorEjeOndaP ">@Html.DisplayFor(model => model.comentario_ondap)</td>
+            </tr>
+            <tr>
+                @*<td>Frecuencia cardiaca (ondas P):</td>
+               
+                <td>@Html.DisplayFor(model => model.frecuen)</td>*@
+                @*<td>@Html.DisplayFor(model => model.seq_pqrs_todos_complejo_comentarios)</td>
+                <td>@Html.DisplayFor(model => model.seq_pqrs_todos_complejo_comentarios)</td>*@
+            </tr>
+            <tr>
+                @{
+                    var _colorAmpOndaP = (Model.amplitud_ondap_dx != "Normal") ? "red" : "black";
+     
+                }
+                <td class="col-md-2"><b>Onda P (amplitud):</b></td>
+                <td class="col-md-2">@Html.DisplayFor(model => model.amplitud_ondap) mm</td>
+                <td class="col-md-3" style="color: @_colorAmpOndaP;">@Html.DisplayFor(model => model.amplitud_ondap_dx)</td>
+                <td class="col-md-5"></td>
+            </tr>
+            <tr>
+                @{
+                    var _colorDuraOndaP = (Model.duracion_ondap_dx != "Normal") ? "red" : "black";
+     
+                }
+                <td class="col-md-2"><b>Onda P (duración):</b></td>
+                <td class="col-md-2">@Html.DisplayFor(model => model.duracion_ondap) Segundos</td>
+                <td class="col-md-3" style="color: @_colorDuraOndaP;">@Html.DisplayFor(model => model.duracion_ondap_dx)</td>
+                <td class="col-md-5" style="color: @_colorDuraOndaP;">@Html.DisplayFor(model => model.duracion_ondap_dx2)</td>
+            </tr>
+        </table>
+    </div>
+<div class="row" style="border-bottom: 1px solid black">
+    @{
+        var _colorPR = (Model.intervalor_pr_dx != "Normal") ? "red" : "black";
+     
+    }
+    <section class="col-md-4"><b>PR Duración:</b> @Html.DisplayFor(model => model.intervalo_pr) Segundos</section>
+    <section class="col-md-4" style="color: @_colorPR;">@Html.DisplayFor(model => model.intervalor_pr_dx)</section>
+    <section class="col-md-4" style="color: @_colorPR;">@Html.DisplayFor(model => model.intervalo_pr_comentario)</section>
+</div>
+    <div class="row" style="border-bottom: 1px solid black">
+        <section class="col-md-6"><b>QT Duración:</b> @Html.DisplayFor(model => model.intervalo_qt) Segundos</section>
+        <section class="col-md-6"><b>R-R Duración:</b> @Html.DisplayFor(model => model.r_r) Segundos</section>
+    </div>
+    <div class="row" style="border-bottom: 1px solid black">
+        <section class="col-md-2">Amplitud de los Complejos QRS</section>
+        <section class="col-md-10">
+           
+            @{
+                
+                var _colorAqrs1 = (Model.amplitud_r_v1_v2_dx != "DLN (no supera p98 para edad)") ? "red" : "black";
+                var _colorAqrs2 = (Model.amplitud_s_v1_v2_dx != "DLN (no supera p98 para edad)") ? "red" : "black";
+                var _colorAqrs3 = (Model.amplitud_r_v5_v6_dx != "DLN (no supera p98 para edad)") ? "red" : "black";
+                var _colorAqrs4 = (Model.amplitud_s_v5_v6_dx != "DLN (no supera p98 para edad)") ? "red" : "black";
+            }
+            <table>
+                <tr>
+                    <td class="col-md-2">R en V1:</td>
+                    <td class="col-md-2">@Html.DisplayFor(model => model.amplitud_r_v1_v2) mm</td>
+                    <td class="col-md-3" style="color: @_colorAqrs1">@Html.DisplayFor(model => model.amplitud_r_v1_v2_dx)</td>
+                    <td class="col-md-5" style="color: @_colorAqrs1">@Html.DisplayFor(model => model.amplitud_r_v1_v2_dx2)</td>
+                </tr>
+                <tr>
+                    <td class="col-md-2">S en V1:</td>
+                    <td class="col-md-2">@Html.DisplayFor(model => model.amplitud_s_v1_v2) mm</td>
+                    <td class="col-md-3" style="color: @_colorAqrs2">@Html.DisplayFor(model => model.amplitud_s_v1_v2_dx)</td>
+                    <td class="col-md-5" style="color: @_colorAqrs2">@Html.DisplayFor(model => model.amplitud_s_v1_v2_dx2)</td>
+                </tr>
+                <tr>
+                    <td class="col-md-2">R en V6:</td>
+                    <td class="col-md-2">@Html.DisplayFor(model => model.amplitud_r_v5_v6) mm</td>
+                    <td class="col-md-3" style="color: @_colorAqrs3">@Html.DisplayFor(model => model.amplitud_r_v5_v6_dx)</td>
+                    <td class="col-md-5" style="color: @_colorAqrs3">@Html.DisplayFor(model => model.amplitud_r_v5_v6_dx2)</td>
+                </tr>
+                <tr>
+                    <td class="col-md-2">S en V6:</td>
+                    <td class="col-md-2">@Html.DisplayFor(model => model.amplitud_s_v5_v6) mm</td>
+                    <td class="col-md-3" style="color: @_colorAqrs4">@Html.DisplayFor(model => model.amplitud_s_v5_v6_dx)</td>
+                    <td class="col-md-5" style="color: @_colorAqrs4">@Html.DisplayFor(model => model.amplitud_s_v5_v6_dx2)</td>
+                </tr>
+            </table>
+        </section>
+    </div>
+<div class="row" style="border-bottom: 1px solid black">
+         @{           
+    var _colorBazet = (Model.intervalo_qt_bazer_dx == "Prolongado") ? "red" : "black";
+             
+    }
+    <section class="col-md-4"><b>QT (fórmula de Bazet):</b> @Html.DisplayFor(model => model.intervalo_qt_bazer) Segundos</section>
+    <section class="col-md-4" style="color: @_colorBazet;">@Html.DisplayFor(model => model.intervalo_qt_bazer_dx)</section>
+    <section class="col-md-4" style="color:  @_colorBazet;">@Html.DisplayFor(model => model.intervalo_qt_bazer_Comentario)</section>
+</div>
+    <div class="row" style="border-bottom: 1px solid black">
+        <section class="col-md-4">
+   
+            <section style="border-bottom: 1px solid black"><b>Frecuencia de Onda Q:</b> @Html.DisplayFor(model => model.presencia_onda_q)</section>
+            <section style="color: red;"> @Html.DisplayFor(model => model.presencia_onda_q_comentario)</section>
+        </section>
+        <section class="col-md-8" style="border-left: 1px solid black">
+            @if (Model.presencia_onda_q) { 
+                <table>
+                    <tr>
+                        <td class="col-md-4"><b>Derivación donde se encuentra mas pronunciada:</b></td>
+                        <td class="col-md-2">@Html.DisplayFor(model => model.pico_mas_alto_en) </td>
+                        <td class="col-md-3" style="color: red;">@Html.DisplayFor(model => model.pico_mas_alto_en_dx)</td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4"><b>Duración en segundos:</b></td>
+                        <td class="col-md-2">@Html.DisplayFor(model => model.duracion_ondaq)</td>
+                        <td class="col-md-3" style="color: red;">@Html.DisplayFor(model => model.duracion_ondaq_dx)</td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4"><b>Profundidad (amplitud) en mm de la onda Q:</b></td>
+                        <td class="col-md-2">@Html.DisplayFor(model => model.profundida_ondaq)</td>
+                        <td class="col-md-3" style="color: red;">@Html.DisplayFor(model => model.profundida_ondaq_dx)</td>
+                    </tr>
+
+                </table>
+            }
+        </section>
+    </div>
+<div class="row" style="border-bottom: 1px solid black;">
+    @{
+        var _colorextra = (Model.complejos_qrs ) ? "red" : "black";
+     
+    }
+    <section class="col-md-6" style="color: @_colorextra ;">@Html.DisplayFor(model => model.DescarteExtraSistolia)</section>
+    <section class="col-md-6" style="color: @_colorextra ;">@Html.DisplayFor(model => model.extraSistolia)</section>
+</div>
+<div class="row" style="border-bottom: 1px solid black">
+    @{
+        var _colorQRS = (Model.duracion_qrs_dx != "Normal") ? "red" : "black";
+     
+    }
+    <section class="col-md-4"><b>Duración del QRS:</b> @Html.DisplayFor(model => model.duracion_qrs) Segundos</section>
+    <section class="col-md-4" style="color: @_colorQRS;">@Html.DisplayFor(model => model.duracion_qrs_dx)</section>
+    <section class="col-md-4" style="color: @_colorQRS;">@Html.DisplayFor(model => model.duracion_qrs_comentario)</section>
+</div>                        
+    <div class="row" style="border-bottom: 1px solid black;height: 24px;">
+        <section class="col-md-6">@Html.DisplayFor(model => model.A_descartar_CIA)</section>
+        <section class="col-md-6">@Html.DisplayFor(model => model.BloqueodeRama)</section>
+    </div>
+<div class="row" style="border-bottom: 1px solid black">
+    @{
+        var _colorMQRS = (Model.morfologia_qrs != "Normal") ? "red" : "black";
+     
+    }
+    <section class="col-md-6"><b>Morfología del complejo QRS: </b>@Html.DisplayFor(model => model.morfologia_qrs)</section>
+    <section class="col-md-6"  style="color: @_colorMQRS;">@Html.DisplayFor(model => model.morfologia_qrs_comentario)</section>
+</div>
+<div class="row" style="border-bottom: 1px solid black">
+    @{
+        var _colorIsoEle = (Model.st_isoelectrico == "No (o más de 1 mm)") ? "red" : "black";
+     
+    }
+    <section class="col-md-6"><b>Segmento ST isoeléctrico: </b>@Html.DisplayFor(model => model.st_isoelectrico)</section>
+    <section class="col-md-6" style="color: @_colorIsoEle">@Html.DisplayFor(model => model.st_isoelectrico_comentario)</section>
+</div>
+<div class="row" style="border-bottom: 1px solid black">
+    @*@{
+        var _colorOndaTv12 = (Model.onda_t_v1_v2 == "Negativa") ? "red" : "black";
+
+    }*@
+    <section class="col-md-6"><b>Onda T en V1-V2: </b>@Html.DisplayFor(model => model.onda_t_v1_v2)</section>
+    <section class="col-md-6" >@Html.DisplayFor(model => model.onda_t_v1_v2_comentario)</section>
+</div>
+<div class="row" style="border-bottom: 1px solid black">
+    @{
+        var _colorOndaTv46 = (Model.onda_t_v5_v6 == "Negativa") ? "red" : "black";
+     
+    }
+    <section class="col-md-6"><b>Onda T en V4-V6: </b>@Html.DisplayFor(model => model.onda_t_v5_v6)</section>
+    <section class="col-md-6" style="color: @_colorOndaTv46">@Html.DisplayFor(model => model.onda_t_v5_v6_comentario)</section>
+</div>
+</div>@*<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ecg_id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>*@

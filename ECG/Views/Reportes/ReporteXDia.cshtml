@@ -1,0 +1,91 @@
+﻿@model IEnumerable<ECG.Models.EcgModels.EstudiosRealizados>
+@{
+    ViewBag.Title = "Reporte del Dia";
+}
+
+<h2>Reporte del Dia</h2>
+<hr />
+@using (Html.BeginForm("ReporteXDia", "Reportes", FormMethod.Post, htmlAttributes: new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            @Html.Label("Fecha Inicial", htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-6">
+                @Html.Editor("fechaInicial", new { htmlAttributes = new { @class = "form-control datepicker" } })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Fecha Final", htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-6">
+                @Html.Editor("fechaFinal", new { htmlAttributes = new { @class = "form-control datepicker" } })
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="col-md-6">
+        <div class="form-group">
+            <div class=" col-md-10">
+                <input type="submit" value="Consultar" class="btn btn-default" height="200"/>
+            </div>
+        </div>
+
+    </div>
+</div>
+   
+}
+<hr/>
+@if(Model.Any()) { 
+<div class="row">
+    <table id="ECGList" class="table table-striped">
+        <thead>
+            <tr>
+                <th>ECG ID</th>
+                <th>Fecha Estudio</th>
+                <th>Nombre Paciente</th>
+                <th>Paciente</th>
+                <th>Nombre Técnico</th>
+                <th>Motivo Consulta</th>
+                <th></th>
+            </tr>
+
+        </thead>
+        <tbody>
+            @foreach (var estudio in Model)
+            {
+            <tr>
+                <td>@estudio.EcgID</td>
+                <td>@estudio.Fecha_Estudio</td>
+                <td>@estudio.Paciente_Nombre</td>
+                <td>@estudio.paciente_tipo</td>
+                <td>@estudio.Tecnico</td>
+                <td>@estudio.Motivo_Consulta</td>
+                <td>
+                    <a href="VerReporte/?ecgId=@estudio.EcgID" title="Ver">
+                        <span class="glyphicon glyphicon-eye-open"></span>
+                    </a>
+                    <a href="ImprimirReporte/?ecgId=@estudio.EcgID" title="Imprimir">
+                        <span class="glyphicon glyphicon-print"></span>
+                    </a>
+                    @*@Html.ActionLink("Imprimir", "ImprimirReporte", new { ecgId = @estudio.EcgID})*@
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+}
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#fechaInicial').val(moment().format("YYYY/MM/DD"));
+            $('#fechaFinal').val(moment().add(1, 'days').format("YYYY/MM/DD"));
+            $('#ECGList').DataTable();
+        })
+    </script>
+
+}

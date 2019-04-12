@@ -1,0 +1,36 @@
+﻿@{
+	ViewBag.Title = "Home Page";
+}
+
+@*@Html.ActionLink("ECG - Adultos", "Adulto", "Home")
+	<br />
+	@Html.ActionLink("ECG - Adultos - Con Tab.", "Adulto_TABS", "Home")
+	<br />
+	@Html.ActionLink("ECG - Pediatrico", "Pediatrico", "Home")
+	<br />*@
+<br />
+<div align="center">
+	<h2>
+		@Html.ActionLink("Pediátrico", "PediatricWizard")
+	</h2>
+	<h6>Es importante que el niño se encuentre al momento de la realización del ECG con al menos 5 minutos <br /> de reposo tranquilo y sin llorar. Sin fiebre y de ser posible detallando la ocurrencia o no de anemia.<br /> La tira para poder determinar el ritmo debe tener al menos 10 segundos (D II)</h6>
+	<h4>
+		@Html.ActionLink("Información sobre electrocardiografía pediátrica (resumen)", "InfoPediatric")
+	</h4>
+	<br />
+
+	<h2>
+		@Html.ActionLink("Adultos", "AdultWizard")
+	</h2>
+	<h5>(Pacientes de más de 15 años)</h5>
+	<h4>
+		@Html.ActionLink("Información sobre electrocardiografía (resumen)", "InfoAdult")
+	</h4>
+	<br />
+	<br />
+	<br />
+	<h4 align="center">
+		Este aplicativo no reemplaza al criterio médico
+	</h4>
+
+</div>
